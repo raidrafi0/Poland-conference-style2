@@ -25,6 +25,8 @@
 \usepackage{url}
 \def\UrlFont{\rmfamily}
 
+\newcommand{\tl}[1]{\textcolor{blue} {TL: #1 :TL} }
+
 \begin{document}
 \mainmatter              % start of a contribution
 %
@@ -63,35 +65,52 @@ Deep reinforcement learning has recently aroused wide attentions. It combines de
 
 \section{Introduction}
 
-Road tracking is one of the most challenging tasks emerged from key applications such as autonomous driving. It aims to automatically guide a car through the correct track without crashing other cars or objects. Deep reinforcement learning \cite{} is considered as one of the most promising %proficient 
-methods that can be applied to address the road tracking issue. In a nutshell, it combines reinforcement learning (RL) and deep learning: reinforcement learning (RL) is about an agent interacting with the environment, learning an optimal policy, by trial and error, for sequential decision making problems
-
+Road tracking is one of the most challenging tasks emerged from key applications such as autonomous driving. It aims to automatically guide a car through the correct track without crashing other cars or objects.  
+%In a nutshell, it combines reinforcement learning (RL) and deep learning: 
+Reinforcement learning (RL) is about an agent interacting with the environment, learning an optimal policy, by trial and error, for sequential decision making problems.
+%
 %in a wide range of fields in natural sciences, social sciences, and engineering (Sutton and Barto, 1998; 2018; Bertsekas and Tsitsiklis, 1996; Bertsekas, 2012; Szepesvari ´ , 2010; Powell, 2011).
-The integration of reinforcement learning and neural networks has a long history (Sutton and Barto,
-2018; Bertsekas and Tsitsiklis, 1996; Schmidhuber, 2015). With recent exciting achievements of
-deep learning (LeCun et al., 2015; Goodfellow et al., 2016), benefiting from big data, powerful
-computation, new algorithmic techniques, mature software packages and architectures, and strong
-financial support, we have been witnessing the renaissance of reinforcement learning (Krakovsky,
-2016), especially, the combination of deep neural networks and reinforcement learning, i.e., deep
-reinforcement learning (deep RL).2
+%While the integration of reinforcement learning and neural networks has a long history, % (Sutton and Barto, 2018; Bertsekas and Tsitsiklis, 1996; Schmidhuber, 2015). With recent exciting achievements of
+%deep learning (LeCun et al., 2015; Goodfellow et al., 2016), benefiting from big data, powerful computation, new algorithmic techniques, mature software packages and architectures, and strong financial support, we have been witnessing the 
+%there is renaissance of reinforcement learning (Krakovsky, 2016), especially, 
+The combination of deep neural networks and reinforcement learning gives rise to deep
+reinforcement learning (deep RL). We hypothesise that deep reinforcement learning %\cite{} is considered as 
+can be one of the most promising %proficient 
+methods %that can be applied 
+to address 
+the road tracking issue and this paper %is concerned with 
+reports our approaches and results to apply DRL to accomplish some typical tasks in road tracking. 
+%road tracking. 
+
+%which usually %model the process as
+%takes a Markov Decision Process (MDP) as an explicit or implicit model. %where the deep reinforcement learning starts from a state, pick the best action by optimising considered rewards and produces a new state. The new state is then utilized as a current state, and the process continues.  
+
+%Different tracking tasks have been considered in the literature:
+One of the primary tasks in road tracking is to track objects. \tl{what is this?} \cite{Grigore2000Reinforcement,Cohen2010Reinforcement,Liu2004Reinforcement,Supancic2017Tracking}. %Other work considered different 
+Other tracking tasks include tracking and controlling velocity \cite{Jinlin2009Neurofuzzy}, tracking periodic gene repressilator \cite{Sootla2013On}, tracking single and double pendulum \cite{Hall2011Reinforcement}, and tracking maximum powers for wind speed conversion systems \cite{Wei2015Reinforcement}. 
+%More traditional approaches to these issues are discussed in the related work. 
+
+
+Applying DRL techniques to road tracking has been reported, but has not been explored thoroughly.  Perot \emph{et al.} %investigated tracking roads of a driving car \tl{some details?}. A deep reinforcement learning was used 
+\cite{Perot2017End} ...\tl{give a bit more details}. The main problem in this work is that the driving car oscillates around the main road track. This is due to the selected reward in this study, where it utilized the oriented angle of the road with the car speed \tl{???}. %In 2017 and 2018, 
+Yun \textit{et al.} \cite{Yun2017Action,Yun2018Action} proposed an action-decision network (ADNet) to track objects, %. The ADNet is a deep reinforcement learning network and it was applied in a quite complicated way, 
+where a pre-trained Convolutional Neural Network (CNN) was firstly employed then the reinforcement learning was utilized. 
 
 
 
-which usually %model the process as
-takes a Markov Decision Process (MDP) as an explicit or implicit model. %where the deep reinforcement learning starts from a state, pick the best action by optimising considered rewards and produces a new state. The new state is then utilized as a current state, and the process continues.  
+%\begin{itemize}
+%	\item \underline{Tracking Object:} In 2000, Grigore and Grigore proposed a tracking system controller by using a recurrent neural network with the reinforcement learning \cite{Grigore2000Reinforcement}. In 2010, Cohen and Pavlovic suggested an effective and vigorous real-time tracker. The tracker utilized the reinforcement learning and it was applied to tracking personal faces \cite{Cohen2010Reinforcement}. In 2004, Liu and Su proposed an object tracking method by exploiting the reinforcement learning. The reinforcement learning was employed here to determine the features of the tracking object \cite{Liu2004Reinforcement}. In 2017, Supan\v{c}i\v{c} and Ramanan constructed a learning policy for tracking objects. The reinforcement learning was applied to video streams to provide on-line decision \cite{Supancic2017Tracking}. 
+%	\item \underline{Different Tracking Issues:} In 2009, Jinlin \textit{et al.} presented a velocity tracking control approach. The authors utilized the neuro-fuzzy technique with the Q-learning in their work \cite{Jinlin2009Neurofuzzy}. In 2011, Hall \textit{et al.} illustrated a single and double pendulum tracking model. A traditional control, Bayesian computations and reinforcement learning were employed in this publication \cite{Hall2011Reinforcement}. In 2013, Sootla \textit{et al.} described a tracking periodic gene repressilator. The fitted Q iteration algorithm was applied to one dimensional signals in this study \cite{Sootla2013On}. In 2015, Wei \textit{et al.} explained tracking a maximum power for wind speed conversion systems. In this paper, a model-free Q-learning method was exploited \cite{Wei2015Reinforcement}. 
+%	\item \underline{Deep Leaning Tracking:} In 2017, Perot \textit{et al.} investigated tracking roads of a driving car. A deep reinforcement learning was used \cite{Perot2017End}. The main problem in this work is that the driving car oscillates around the main road track. This is due to the selected reward in this study, where it utilized the oriented angle of the road with the car speed. In 2017 and 2018, Yun \textit{et al.} approached an action-decision network (ADNet) to track objects. The ADNet is a deep reinforcement learning network and it was applied in a quite complicated way, where a pre-trained Convolutional Neural Network (CNN) was firstly employed then the reinforcement learning was utilized \cite{Yun2017Action}\cite{Yun2018Action}. 
+%\end{itemize}
 
-Different tracking tasks were considered in the literature as:
-\begin{itemize}
-	\item \underline{Tracking Object:} In 2000, Grigore and Grigore proposed a tracking system controller by using a recurrent neural network with the reinforcement learning \cite{Grigore2000Reinforcement}. In 2010, Cohen and Pavlovic suggested an effective and vigorous real-time tracker. The tracker utilized the reinforcement learning and it was applied to tracking personal faces \cite{Cohen2010Reinforcement}. In 2004, Liu and Su proposed an object tracking method by exploiting the reinforcement learning. The reinforcement learning was employed here to determine the features of the tracking object \cite{Liu2004Reinforcement}. In 2017, Supan\v{c}i\v{c} and Ramanan constructed a learning policy for tracking objects. The reinforcement learning was applied to video streams to provide on-line decision \cite{Supancic2017Tracking}. 
-	\item \underline{Different Tracking Issues:} In 2009, Jinlin \textit{et al.} presented a velocity tracking control approach. The authors utilized the neuro-fuzzy technique with the Q-learning in their work \cite{Jinlin2009Neurofuzzy}. In 2011, Hall \textit{et al.} illustrated a single and double pendulum tracking model. A traditional control, Bayesian computations and reinforcement learning were employed in this publication \cite{Hall2011Reinforcement}. In 2013, Sootla \textit{et al.} described a tracking periodic gene repressilator. The fitted Q iteration algorithm was applied to one dimensional signals in this study \cite{Sootla2013On}. In 2015, Wei \textit{et al.} explained tracking a maximum power for wind speed conversion systems. In this paper, a model-free Q-learning method was exploited \cite{Wei2015Reinforcement}. 
-	\item \underline{Deep Leaning Tracking:} In 2017, Perot \textit{et al.} investigated tracking roads of a driving car. A deep reinforcement learning was used \cite{Perot2017End}. The main problem in this work is that the driving car oscillates around the main road track. This is due to the selected reward in this study, where it utilized the oriented angle of the road with the car speed. In 2017 and 2018, Yun \textit{et al.} approached an action-decision network (ADNet) to track objects. The ADNet is a deep reinforcement learning network and it was applied in a quite complicated way, where a pre-trained Convolutional Neural Network (CNN) was firstly employed then the reinforcement learning was utilized \cite{Yun2017Action}\cite{Yun2018Action}. 
-\end{itemize}
+%It can be seen from the literature that the majority of tracking studies were focused on tracking object problems as in \cite{Grigore2000Reinforcement}\cite{Cohen2010Reinforcement}\cite{Liu2004Reinforcement}\cite{Supancic2017Tracking}. Other work considered different tracking tasks such as: tracking and controlling velocity \cite{Jinlin2009Neurofuzzy}, tracking periodic gene repressilator \cite{Sootla2013On}, tracking single and double pendulum \cite{Hall2011Reinforcement}, tracking maximum powers for wind speed conversion systems \cite{Wei2015Reinforcement}. Only several studies were concentrated on utilizing the deep learning in order to address tracking issues such as \cite{Yun2017Action,Yun2018Action}. 
 
-It can be seen from the literature that the majority of tracking studies were focused on tracking object problems as in \cite{Grigore2000Reinforcement}\cite{Cohen2010Reinforcement}\cite{Liu2004Reinforcement}\cite{Supancic2017Tracking}. Other work considered different tracking tasks such as: tracking and controlling velocity \cite{Jinlin2009Neurofuzzy}, tracking periodic gene repressilator \cite{Sootla2013On}, tracking single and double pendulum \cite{Hall2011Reinforcement}, tracking maximum powers for wind speed conversion systems \cite{Wei2015Reinforcement}. Only several studies were concentrated on utilizing the deep learning in order to address tracking issues such as \cite{Yun2017Action,Yun2018Action}. 
+Our work contributes to this area by suggesting an effective road tracking procedure and employing the MDP based on the deep reinforcement learning, where states are used as inputs; rewards are utilized to evaluate the tracking policy and actions are predicted to provide new states. \tl{but is this not what all previous work has done?!} Efficient coding \tl{in which sense it is efficient?} for various road tracking possibilities \tl{actions?} has been considered such as turning to the left or right and recognizing crossing object(s). 
 
-Our work contributes to this area by suggesting an effective road tracking procedure and employing the MDP based on the deep reinforcement learning, where states are used as inputs; rewards are utilized to evaluate the tracking policy and actions are predicted to provide new states. Efficient coding for various road tracking possibilities has been considered such as turning to the left or right and recognizing crossing object(s). This study can be exploited for driving car applications such as driverless (or automatic driving). 
+%This study can be exploited for driving car applications such as driverless (or automatic driving). 
 
-After the introduction, this paper is organized as follows: Section 2 states the methodology with the theoretical concepts, Section 3 discusses the results and Section 4 concludes the paper.
+%After the introduction, this paper is organized as follows: Section 2 states the methodology with the theoretical concepts, Section 3 discusses the results and Section 4 concludes the paper.
 \begin{figure*}[!t]
 	\centering
 	\includegraphics[scale=.83,trim=3cm 22.5cm 7.1cm 2cm,clip]{segmentation_regions2.pdf}
@@ -110,6 +129,14 @@ After the introduction, this paper is organized as follows: Section 2 states the
 	\caption{The main design of the proposed DRL-RT. It consists of two conventional layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer}
 	\label{Fig:Deep_Reinf_Net}
 \end{figure*}
+
+\paragraph{Related work.}  %\emph{Tracking Object:} In 2000, 
+For tracking objects, Grigore and Grigore \cite{Grigore2000Reinforcement} proposed a tracking system controller by using a recurrent neural network with the reinforcement learning. %In 2010, 
+Cohen and Pavlovic \cite{Cohen2010Reinforcement} suggested an effective and vigorous real-time tracker, which utilized RL and was applied to tracking personal faces. In 2004, Liu and Su proposed an object tracking method by exploiting the reinforcement learning. The reinforcement learning was employed here to determine the features of the tracking object \cite{Liu2004Reinforcement}. In 2017, Supan\v{c}i\v{c} and Ramanan constructed a learning policy for tracking objects. The reinforcement learning was applied to video streams to provide on-line decision \cite{Supancic2017Tracking}. 
+	
+%\emph{Different Tracking Issues:} In 2009, Jinlin \textit{et al.} presented a velocity tracking control approach. The authors utilized the neuro-fuzzy technique with the Q-learning in their work \cite{Jinlin2009Neurofuzzy}. In 2011, Hall \textit{et al.} illustrated a single and double pendulum tracking model. A traditional control, Bayesian computations and reinforcement learning were employed in this publication \cite{Hall2011Reinforcement}. In 2013, Sootla \textit{et al.} described a tracking periodic gene repressilator. The fitted Q iteration algorithm was applied to one dimensional signals in this study \cite{Sootla2013On}. In 2015, Wei \textit{et al.} explained tracking a maximum power for wind speed conversion systems. In this paper, a model-free Q-learning method was exploited \cite{Wei2015Reinforcement}. 
+%	\emph{Deep Leaning Tracking:} In 2017, Perot \textit{et al.} investigated tracking roads of a driving car. A deep reinforcement learning was used \cite{Perot2017End}. The main problem in this work is that the driving car oscillates around the main road track. This is due to the selected reward in this study, where it utilized the oriented angle of the road with the car speed. In 2017 and 2018, Yun \textit{et al.} approached an action-decision network (ADNet) to track objects. The ADNet is a deep reinforcement learning network and it was applied in a quite complicated way, where a pre-trained Convolutional Neural Network (CNN) was firstly employed then the reinforcement learning was utilized \cite{Yun2017Action}\cite{Yun2018Action}. 
+ 
 
 %----------------------------------------------------------------------------------------------------------------
 
