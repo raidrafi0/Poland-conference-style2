@@ -30,16 +30,14 @@
 \begin{document}
 \mainmatter              % start of a contribution
 %
-\title{Road Tracking by Deep Reinforcement Learning 
-	%for Driving Cars Applications
-}
+\title{Road Tracking Using Deep Reinforcement Learning for Driving Cars Applications}
 %
 \titlerunning{Road Tracking}  % abbreviated title (for running head)
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
-\author{Raid Rafi Omar Al-Nima\inst{1} \and Tingting Han\inst{2} \and
-Taolue Chen\inst{2}}
+\author{Raid Rafi Omar Al-Nima\inst{1,2} \and Tingting Han\inst{2}\thanks{This work is supported by EPSRC grant EP/P015387/1.} \and 
+	Taolue Chen\inst{2}}
 %
 \authorrunning{Raid Al-Nima et al.} % abbreviated author list (for running head)
 %
@@ -47,10 +45,11 @@ Taolue Chen\inst{2}}
 \tocauthor{Raid Rafi Omar Al-Nima, Tingting Han, and Taolue Chen}
 %
 \institute{Technical Engineering College of Mosul, Northern Technical University, Iraq\\
-\email{raidrafi1@gmail.com}\\ 
-\and
-Department of Computer Science and Information Systems,\\ Birkbeck, University of London\\
-\email{tingting@dcs.bbk.ac.uk,t.chen@dcs.bbk.ac.uk}}
+	%\email{raidrafi1@gmail.com}\\ 
+	\and
+	DCSIS, Birkbeck University of London
+	%\email{tingting@dcs.bbk.ac.uk,t.chen@dcs.bbk.ac.uk}
+}
 
 \maketitle              % typeset the title of the contribution
 
@@ -141,7 +140,7 @@ Cohen and Pavlovic \cite{Cohen2010Reinforcement} suggested an effective and vigo
 %----------------------------------------------------------------------------------------------------------------
 
 \section{Modelling}
-To model the road tracking, various essential issues have to be considered such as how to identify road crossing object(s), how to encode different tracking directions, how to design the deep reinforcement learning network to determine the next action, etc. Such issues will be illustrated and addressed in this section.
+In this section, we are to address various essential issues to model the road tracking, such as how to identify road crossing object(s), how to encode different tracking directions, and how to design the deep reinforcement learning network to determine the next action, etc. 
 
 \subsection{Road Tracking:} 
 Our research is based on the SYNTHIA-SEQS-05 database \cite{Ros2016TheSYNTHIA}. Video sequences were recorded and saved, from which one extracted front,  rear, left and right view road images around the car for both right and left steering cars. Each view covers a range of angle up to 100 degrees. As a result, a large number of simulated image frames were provided, each has a resolution of $760 \times 1,280 \times 3$ pixel. 
@@ -306,8 +305,6 @@ for recognizing moved objects as the rewards are updated in the stop action. In 
 \section{Conclusion}
 A deep reinforcement neural network is established for road tracking termed the DRL-RT. This network is suggested to guide driving cars under different weather environments. Different tracking instances were coded to represent the appropriate road tracking. The MDP concept is used here, where the network accepted states and produced actions by taking advantages from rewards. The proposed deep reinforcement network is based on the policy search. This study were compared with other work and it reported superior performance. In addition, interesting results were benchmarked by the proposed approach. That is, the best performance of 93.94\% was recorded for a clear environment and reasonable performance were reported under unclear environments of fog, rain and heavy-rain as the obtained accuracies were respectively equal to 93.66\%, 89.55\% and 84.68\%. 
 
-\section*{Acknowledgment}
-$\bullet$ ``RC grant EP/P015387/1".
 
 %\begin{thebibliography}{0}
 %
