@@ -198,7 +198,7 @@ The binary codes can be converted to desired equivalent decimal codes in the sta
 %\end{table}
 
 \subsection{Policy search} 
-Principally, there are two essential types of reinforcement learning methods - policy search and value function. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. In this work, the suggested DRL-RT network is based on the policy search. According to the MDP concept, the DRL-RT collects input images as current states $S_t$ and getting advantages from rewards $R$ to generate actions $A$, then the actions predict new states $S_{t+1}$. Consequently, the new states can be transitioned again in the inputs as current states. 
+Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. In this work, the suggested DRL-RT network is based on the policy search. According to the MDP concept, the DRL-RT collects input images as current states $S_t$ and getting advantages from rewards $R$ to generate actions $A$, then the actions predict new states $S_{t+1}$. Consequently, the new states can be transitioned again in the inputs as current states. 
 
 The essential equation of the policy search is demonstrated as:
 \begin{equation}
