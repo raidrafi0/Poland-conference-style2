@@ -31,13 +31,13 @@
 \begin{document}
 \mainmatter              % start of a contribution
 %
-\title{Road Tracking Using Deep Reinforcement Learning for Driving Cars Applications}
+\title{Road Tracking Using Deep Reinforcement Learning for Driving Cars Applications\thanks{This work is supported by EPSRC grants EP/P00430X/1 and EP/P015387/1.}}
 %
 \titlerunning{Road Tracking}  % abbreviated title (for running head)
 %                                     also used for the TOC unless
 %                                     \toctitle is used
 %
-\author{Raid Rafi Omar Al-Nima\inst{1,2} \and Tingting Han\inst{2}\thanks{This work is supported by EPSRC grant EP/P015387/1.} \and 
+\author{Raid Rafi Omar Al-Nima\inst{1,2} \and Tingting Han\inst{2} \and 
 	Taolue Chen\inst{2}}
 %
 \authorrunning{Raid Al-Nima et al.} % abbreviated author list (for running head)
@@ -45,10 +45,10 @@
 %%%% list of authors for the TOC (use if author list has to be modified)
 \tocauthor{Raid Rafi Omar Al-Nima, Tingting Han, and Taolue Chen}
 %
-\institute{Technical Engineering College of Mosul, Northern Technical University, Iraq\\
+\institute{
 	%\email{raidrafi1@gmail.com}\\ 
-	\and
-	DCSIS, Birkbeck University of London
+	DCSIS, Birkbeck University of London	\and
+	Technical Engineering College of Mosul, Northern Technical University, Iraq
 	%\email{tingting@dcs.bbk.ac.uk,t.chen@dcs.bbk.ac.uk}
 }
 
@@ -197,18 +197,27 @@ The binary codes can be converted to desired equivalent decimal codes in the sta
 %	\end{tabular}
 %\end{table}
 
-\subsection{Policy search} 
-Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. In this work, the suggested DRL-RT network is based on the policy search. According to the MDP concept, the DRL-RT collects input images as current states $S_t$ and getting advantages from rewards $R$ to generate actions $A$, then the actions predict new states $S_{t+1}$. Consequently, the new states can be transitioned again in the inputs as current states. 
 
-The essential equation of the policy search is demonstrated as:
-\begin{equation}
-\pi^*=\underset{\pi}{argmax}~\mathbb{E} [R\mid\pi]
-\label{Eq:MDP}
-\end{equation}
-where $\pi$ is the policy and $\mathbb{E}$ is the expected return value \cite{arulkumaran2017brief}. In this work, the reward $R$ of the correct tracking is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
+%-----------------------------------------------------------------------------------------
+
+\subsection{Policy search} 
+%Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. 
+
+The suggested DRL-RT network is based on the policy search. %According to the MDP concept, the 
+DRL-RT collects input images as current states $S_t$ \tl{what do you mean by current states? current state or the state space?} and getting advantages from rewards $R$ to generate actions $A$, then the actions predict new states $S_{t+1}$ \tl{how?}. The process will be repeated in a multi-episodic manner. %Consequently, the new states can be transitioned again in the inputs as current states. 
+
+%The essential equation of the policy search is demonstrated as:
+%\begin{equation}
+%\pi^*=\underset{\pi}{argmax}~\mathbb{E} [R\mid\pi]
+%\label{Eq:MDP}
+%\end{equation}
+%where $\pi$ is the policy and $\mathbb{E}$ is the expected return value \cite{arulkumaran2017brief}. 
+
+In this work, the reward $R$ takes a simple form, i.e., the correct tracking is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
 
 \subsection{Proposed DRL-RT} 
-An applicable deep reinforcement network named the DRL-RT is established for road tracking. It consists of eight layers: two convention layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. The input is an image of a car facing view, and it is considered as a current state. The input image size has been reduced to $254 \times 427 \times 3$ pixels in order to speed up the deep learning processes. The first layer after the input is a convolution layer, it consists of 5 filters each of which has a filter size of $10 \times 10$ pixels. This layer is important to extract the main features of the input images. A ReLU layer is used in the second layer. It removes the negative values and maintain the positive values of the previous layer. The third layer is also a convolution layer, it consists of 5 filters each of which has a filter size of $5 \times 5$ pixels. It extracts more features from the input images. A ReLU layer is employed again in the fourth layer. This layer rectifies the negative values. It has empirically been found that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. Then, a pooling layer of a maximum type is applied in the fifth layer, the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. The sixth layer is a fully connected layer, it collects the outputs from the previous layer and produces a series of decimal code tracking values. A regression layer is the seventh layer. In this layer, a series of directional road tracking codes are generated. The successful codes in this layer produce positive rewards, whereas, unsuccessful codes generate negative rewards. The network should be propagated, forwarded and backwarded the information for updating the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Table \ref{Table:Signs_codes}. Fig. \ref{Fig:Deep_Reinf_Net} shows the proposed DRL-RT network.
+%An applicable deep reinforcement network named the DRL-RT is established for road tracking. It 
+In this section, we describe the neural network (NN) used in DRL-RT, which consists of eight layers: two convention layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
 
 \begin{figure*}[!h]
 	\centering
@@ -217,49 +226,67 @@ An applicable deep reinforcement network named the DRL-RT is established for roa
 	\label{Fig:Deep_Reinf_Net}
 \end{figure*}
 
-\subsection{Theoretical concepts} 
-The theoretical concepts of the main analysis layers (convolution, ReLU, pooling and fully connected) in the DRL-RT network were stated in \cite{omar2018deep}.
+The input of the NN is an image of a car facing view, and it is considered as the current state. The dimension of the input image %size has been 
+is reduced to $254 \times 427 \times 3$ pixels to speed up the training. The first layer after the input is a convolution layer which consists of 5 filters each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. A ReLU layer is used in the second layer. It removes the negative values and maintain the positive values of the previous layer. The third layer is also a convolution layer, it consists of 5 filters each of which has a filter size of $5 \times 5$ pixels. It extracts more features from the input images. A ReLU layer is employed again in the fourth layer. This layer rectifies the negative values. It has empirically been found that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. Then, a pooling layer of a maximum type is applied in the fifth layer, the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
 
-In the first and third layers, the collected information will be converted to feature maps. The feature map is defined as a convoluted 2D image with a kernel of weights. The following general equation represents the operations in a convolution layer:
-\begin{equation}
-z_{u,v,c^{l}}= \text{\footnotesize $B_{c^{l}}+\sum_{i=-k_h^{l}}^{k_h^{l}}\sum_{j=-k_w^{l}}^{k_w^{l}}\sum_{c^{l-1}=1}^{C^{l-1}} W_{i+k_h^{l},j+k_w^{l},c^{l-1}}^{c^{l}} z_{u+i,v+j,c^{l-1}}$}
-\label{eq:conv_layer}
-\end{equation}
-where $z_{u,v,c^{l}}$ is a convolution layer outcome, $(u,v)$ is the assigned pixel, $c^{l}$ is the channel number of the convolution layer,  $W_{i,j,c^{l-1}}^{c^{l}}$ is the components of the kernel weights,  $B_{c^{l}}$ is the channel bias of the convolution layer, $k_h^l$ and $k_w^l$ are respectively the height and width of the kernel weights of the convolution layer, $C$ is the number of channels and it is here equal to 3 as we are using three channels of coloured images, $l-1$ is the previous layer, and $l$ is the current layer (the convolution layer) \cite{simo2016learning}. 
-% \marginpar{Does it mean that all the $k_w^l$ are the same for all layers?}. Answer is: no and I have mentioned previously that $l$ represents the current layer.
-%Again, this layer analyses the input values and produces FTs' feature maps.
+\tl{this is to encode the policy?}
+The sixth layer is a fully connected layer, it collects the outputs from the previous layer and produces a series of decimal code tracking values. A regression layer is the seventh layer. In this layer, a series of directional road tracking codes are generated. \tl{what is successful unsuccessful code?} The successful code in this layer produce positive rewards, whereas, unsuccessful codes generate negative rewards. The network should be propagated, forwarded and backwarded the information for updating the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Table \ref{Table:Signs_codes}. 
 
-A ReLU transfer function is applied in the second and fourth layers. This function can provide non-linear calculation to the DRL-RT. The ReLU function maintains the positive values and discards the negative values of a previous layer. Equation \eqref{eq:relu_layer} is exploited for the ReLU transfer function:
-\begin{equation}
-o_{u,v,c^{l}}=f(z_{u,v,c^{l}})=\max(0,z_{u,v,c^{l}})
-\label{eq:relu_layer}
-\end{equation}
-where $o_{u,v,c^{l}}$ is a ReLU layer outcome and $\max$ is the maximum operation \cite{krizhevsky2012imagenet}. 
 
-A pooling layer is used in the fifth part of the DRL-RT. The pooling layer can reduce the sizes of the feature maps. It obtains the maximum values from the last ReLU layer. In general, the pooling layer can be applied according to the following equation:
-\begin{equation}
-q_{a^{l},b^{l},c}=\underset{0\leq a<p_h,0\leq b<p_w}{\max} o_{a^{l}\times p_h+a,~b^{l}\times p_w+b,~c}
-\label{eq:pooling_layer}
-\end{equation}
-where $q_{a^{l},b^{l},c}$ is a pooling layer outcome, $0\leq a^{l} <p_h^{l}$, $p_h^{l}$ is the height of the resulting feature maps, $0\leq b^{l} <p_w^{l}$, $p_w^{l}$ is the width of the resulting feature maps, $0\leq c <C^{l}=C^{l-1}$, $p_h$ and $p_w$ are respectively the width and height of the feature map sub-areas that require pooling \cite{wu2017introduction}. 
+%--------------------------------------------------------------
+%\subsection{Theoretical concepts} 
+%\tl{is there anything which is not standard in this section!?}
+%The theoretical concepts of the main analysis layers (convolution, ReLU, pooling and fully connected) in the DRL-RT network were stated in \cite{omar2018deep}.
+%
+%In the first and third layers, the collected information will be converted to feature maps. The feature map is defined as a convoluted 2D image with a kernel of weights. The following general equation represents the operations in a convolution layer:
+%\begin{equation}
+%z_{u,v,c^{l}}= \text{\footnotesize $B_{c^{l}}+\sum_{i=-k_h^{l}}^{k_h^{l}}\sum_{j=-k_w^{l}}^{k_w^{l}}\sum_{c^{l-1}=1}^{C^{l-1}} W_{i+k_h^{l},j+k_w^{l},c^{l-1}}^{c^{l}} z_{u+i,v+j,c^{l-1}}$}
+%\label{eq:conv_layer}
+%\end{equation}
+%where $z_{u,v,c^{l}}$ is a convolution layer outcome, $(u,v)$ is the assigned pixel, $c^{l}$ is the channel number of the convolution layer,  $W_{i,j,c^{l-1}}^{c^{l}}$ is the components of the kernel weights,  $B_{c^{l}}$ is the channel bias of the convolution layer, $k_h^l$ and $k_w^l$ are respectively the height and width of the kernel weights of the convolution layer, $C$ is the number of channels and it is here equal to 3 as we are using three channels of coloured images, $l-1$ is the previous layer, and $l$ is the current layer (the convolution layer) \cite{simo2016learning}. 
+%% \marginpar{Does it mean that all the $k_w^l$ are the same for all layers?}. Answer is: no and I have mentioned previously that $l$ represents the current layer.
+%%Again, this layer analyses the input values and produces FTs' feature maps.
+%
+%A ReLU transfer function is applied in the second and fourth layers. This function can provide non-linear calculation to the DRL-RT. The ReLU function maintains the positive values and discards the negative values of a previous layer. Equation \eqref{eq:relu_layer} is exploited for the ReLU transfer function:
+%\begin{equation}
+%o_{u,v,c^{l}}=f(z_{u,v,c^{l}})=\max(0,z_{u,v,c^{l}})
+%\label{eq:relu_layer}
+%\end{equation}
+%where $o_{u,v,c^{l}}$ is a ReLU layer outcome and $\max$ is the maximum operation \cite{krizhevsky2012imagenet}. 
+%
+%A pooling layer is used in the fifth part of the DRL-RT. The pooling layer can reduce the sizes of the feature maps. It obtains the maximum values from the last ReLU layer. In general, the pooling layer can be applied according to the following equation:
+%\begin{equation}
+%q_{a^{l},b^{l},c}=\underset{0\leq a<p_h,0\leq b<p_w}{\max} o_{a^{l}\times p_h+a,~b^{l}\times p_w+b,~c}
+%\label{eq:pooling_layer}
+%\end{equation}
+%where $q_{a^{l},b^{l},c}$ is a pooling layer outcome, $0\leq a^{l} <p_h^{l}$, $p_h^{l}$ is the height of the resulting feature maps, $0\leq b^{l} <p_w^{l}$, $p_w^{l}$ is the width of the resulting feature maps, $0\leq c <C^{l}=C^{l-1}$, $p_h$ and $p_w$ are respectively the width and height of the feature map sub-areas that require pooling \cite{wu2017introduction}. 
+%
+%Subsequently, the fully connected layer is used to match between the designed number of subjects and the data of the pooling layer. Equation (\ref{eq:fully_connect}) demonstrates the fully connected layer processes:
+%\begin{equation}
+%g_{r}=\text{\footnotesize $\sum_{a=1}^{m_1^{l-1}} \sum_{b=1}^{m_2^{l-1}} \sum_{c=1}^{m_3^{l-1}} W_{a,b,c,r}^{l}(\textit{\textbf{Q}}_{c})_{a,b}~, ~~~~~~~\forall 1 \leq r \leq m^{l}$}
+%\label{eq:fully_connect}
+%\end{equation}
+%where $g_{r}$ is a fully connected layer outcome, $m_1^{l-1}$ and $m_2^{l-1}$ are the width and height of a feature map in the previous layer (the pooling layer) respectively, $m_3^{l-1}$ is the number of produced feature maps in the pooling layer, $W_{a,b,c,r}^{l}$ is the connection weights between the fully connected layer and the pooling layer, $\textit{\textbf{Q}}_{c}$ are the pooling layer outputs, and $m^{l}$ is the number of designed subjects \cite{stutz2014neural}.
+%
+%The computations of the regression layer in the suggested DRL-RT network are based on the Mean Squared Error (MSE). The main MSE equation is illustrated as:
+%\begin{equation}
+%MSE=\frac{1}{n} \sum_{r=1}^{n}(t_r-g_r)^2
+%\label{eq:fully_connect}
+%\end{equation}
+%where $n$ is the number of computed values and $t$ is the desired output values \cite{saugirouglu2009intelligent}. If the regression output values close to the desired code values, positive rewards are produced. Otherwise, negative rewards are generated. 
+%
+%Finally, the classification layer translates the regression information into actions by converting the obtained values into their assigned classes.
+%
+%\tl{cannot really see this; this is pretty standard RL stuffs}
+%The MDP has been applied to the DRL-RT by providing current road tracking as current states $S_t$ to the input layer, estimating tracking directions as actions $A$, considering correct and incorrect tracking actions as rewards $R$, and predicting next tracking movements as new states $S_{t+1}$. Then, the new state (or next tracking view) are transitioned as a current state to the DRL-RT input layer in order to produce a new state again.
 
-Subsequently, the fully connected layer is used to match between the designed number of subjects and the data of the pooling layer. Equation (\ref{eq:fully_connect}) demonstrates the fully connected layer processes:
-\begin{equation}
-g_{r}=\text{\footnotesize $\sum_{a=1}^{m_1^{l-1}} \sum_{b=1}^{m_2^{l-1}} \sum_{c=1}^{m_3^{l-1}} W_{a,b,c,r}^{l}(\textit{\textbf{Q}}_{c})_{a,b}~, ~~~~~~~\forall 1 \leq r \leq m^{l}$}
-\label{eq:fully_connect}
-\end{equation}
-where $g_{r}$ is a fully connected layer outcome, $m_1^{l-1}$ and $m_2^{l-1}$ are the width and height of a feature map in the previous layer (the pooling layer) respectively, $m_3^{l-1}$ is the number of produced feature maps in the pooling layer, $W_{a,b,c,r}^{l}$ is the connection weights between the fully connected layer and the pooling layer, $\textit{\textbf{Q}}_{c}$ are the pooling layer outputs, and $m^{l}$ is the number of designed subjects \cite{stutz2014neural}.
 
-The computations of the regression layer in the suggested DRL-RT network are based on the Mean Squared Error (MSE). The main MSE equation is illustrated as:
-\begin{equation}
-MSE=\frac{1}{n} \sum_{r=1}^{n}(t_r-g_r)^2
-\label{eq:fully_connect}
-\end{equation}
-where $n$ is the number of computed values and $t$ is the desired output values \cite{saugirouglu2009intelligent}. If the regression output values close to the desired code values, positive rewards are produced. Otherwise, negative rewards are generated. 
 
-Finally, the classification layer translates the regression information into actions by converting the obtained values into their assigned classes.
+%==============================================================================================================
 
-The MDP has been applied to the DRL-RT by providing current road tracking as current states $S_t$ to the input layer, estimating tracking directions as actions $A$, considering correct and incorrect tracking actions as rewards $R$, and predicting next tracking movements as new states $S_{t+1}$. Then, the new state (or next tracking view) are transitioned as a current state to the DRL-RT input layer in order to produce a new state again.
+\section{Results}
+\subsection{Databases} 
+Four databases from SYNTHIA \cite{Ros2016TheSYNTHIA} are used. The selected databases are constructed under different environment conditions: (1) spring, (2) fog, (3) rain and (4) heavy-rain. Moreover, their segmented images, which are provided by the same database, are found to be useful for manually determining the appropriate code of each track. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	
 \begin{table*}[!t]
 	\centering
 	\caption{Examples of the four employed environments}
@@ -277,10 +304,6 @@ The MDP has been applied to the DRL-RT by providing current road tracking as cur
 		%			&&\\ \hline
 	\end{tabular}
 \end{table*}
-
-\section{Results}
-\subsection{Databases} 
-Four databases from SYNTHIA \cite{Ros2016TheSYNTHIA} are used. The selected databases are constructed under different environment conditions: (1) spring, (2) fog, (3) rain and (4) heavy-rain. Moreover, their segmented images, which are provided by the same database, are found to be useful for manually determining the appropriate code of each track. Examples from the four databases are given in Table \ref{Table:Environments_Examples}.	
 
 All implementations were performed by employing a computer with the following facilities: 8 GB RAM and Intel Core i5 processor (3.2 GHz). Only the microprocessor was used in this study to train and test the DRL-RT. The number of frames that have been utilized here are: 270, 284, 268 and 248 frames for the environments of spring, fog, rain and heavy-rain, respectively. The frames are equally divided between the training and testing stages (50\% each), where the odd frames are used in the training stage and the even frames are used in the testing stage.
 
