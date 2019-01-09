@@ -129,7 +129,26 @@ Cohen and Pavlovic \cite{Cohen2010Reinforcement} suggested an effective and vigo
 In this section, we are to address various essential issues to model the road tracking, such as how to identify road crossing object(s), how to encode different tracking directions, and how to design the deep reinforcement learning network to determine the next action, etc. 
 
 
-\paragraph{The dataset.} Our research is based on the SYNTHIA-SEQS-05 database \cite{Ros2016TheSYNTHIA}. Video sequences were recorded and saved, from which one extracted front, rear, left and right view road images around the car for both right and left steering cars. Each view covers a range of angle up to 100 degrees. As a result, a large number of simulated image frames were provided, each has a resolution of $760 \times 1,280 \times 3$ pixel. The images were taken in four different environments: clear environment in spring, foggy, rainy and heavy-rain  environment. In our study, we look at \emph{forward} view road frames for a \emph{right} steering car in all \emph{four} environments. 
+\paragraph{The dataset.} Our research is based on the SYNTHIA-SEQS-05 database \cite{Ros2016TheSYNTHIA}. Video sequences were recorded and saved, from which one extracted front, rear, left and right view road images around the car for both right and left steering cars. Each view covers a range of angle up to 100 degrees. As a result, a large number of simulated image frames were provided, each has a resolution of $760 \times 1,280 \times 3$ pixel. The images were taken in four different environments: clear environment in spring, foggy, rainy and heavy-rain  environment. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	In our study, we look at \emph{forward} view road frames for a \emph{right} steering car in all \emph{four} environments. 
+
+
+\begin{table*}[!t]
+	\centering
+	\caption{Examples of the four employed environments}
+	\label{Table:Environments_Examples}
+	\begin{tabular}{|C{1.5cm}|c|C{8.5cm}|}
+		\hline
+	\textbf{Environment} & \textbf{Examples} \\ \hline
+	Spring & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 24.5cm 2cm 2.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
+		%			&&\\ \hline
+	Fog	& \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 20.5cm 2cm 6.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
+		%			&&\\ \hline
+	Rain &  \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 16.5cm 2cm 10.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
+		%			&&\\ \hline
+	Heavy- rain & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 12.5cm 2cm 14.3cm,clip]{examples.pdf}\end{minipage} \\ \hline
+		%			&&\\ \hline
+	\end{tabular}
+\end{table*}
 
 \begin{figure*}[!ht]
 	\centering
@@ -146,7 +165,7 @@ Each view (image) can be divided into a safety zone and a danger zone. If object
 To determine a safety zone or a danger zone, a virtual triangle and trapezoid are drawn. The base of the triangle and trapezoid moves in the road direction, and the crossing lines slope toward the tracking direction. The height of the triangle (and the trapezoid) is two thirds of the image. \tt{The height of the triangle in Fig 1 is roughly a half of the image, not 2 thirds?} The top one third of the trapezoid is the safety zone and the bottom two thirds is the danger zone. The shared point of the triangle and the trapezoid is called an \emph{anchor point}. It denotes the road tracking direction by following the track centre. By drawing the virtual triangle in the trapezoid area we can divide the region into left, right and centre region, with which the direction of any crossing objects can be specified. The car can, for instance, avoid an object crossing from the left side by moving to the right, if the space is empty there. If objects are identified from both sides in the danger zone, then the car has to stop.  
 
 
-\subsection{Actions codes} 
+\subsection{Actions codes} \label{sec:action}
 At any point, a car can take one of the following actions: drive straight on, turn left or right, reverse and stop. In our work, we use a five-digit binary number to encode each action, see the table below. %\ref{Table:Signs_codes}. The stop action is applied when the danger zone recognising object(s) in the way from both sides. 
 
 %\begin{table}[!h]
@@ -177,9 +196,10 @@ The binary codes can be converted to desired equivalent decimal codes in the sta
 \begin{figure*}[!ht]
 	\centering
 	\includegraphics[scale=.33,trim=2cm 35cm 0cm 2cm,clip]{segmentation3.pdf}			
-	\begin{scriptsize}\vspace{-4ex}\caption{Segmented images for road tracking: (a) straightforward, (b) turning left, (c) turning right, (d) reverse or backward, (e-g) stopping action because of a single crossing object, (h-j) stopping action because of two crossing objects and (k) stopping action because of three crossing objects}\end{scriptsize}
+	\begin{scriptsize}\vspace{-4ex}\caption{Segmented images for road tracking: (a) straightforward, (b) turning left, (c) turning right, (d) reverse or backward, (e-g) stopping action because of a single crossing object, (h-j) stopping action because of two crossing objects and (k) stopping action because of three crossing objects\label{Fig:segmentation}}\end{scriptsize}
 %\caption{Segmented images for road tracking: (a) straightforward, (b) turning left, (c) turning right, (d) reverse or backward, (e-g) stopping action because of a single crossing object, (h-j) stopping action because of two crossing objects and (k) stopping action because of three crossing objects}
-\label{Fig:segmentation}
+
+	\vspace{-6ex}
 \end{figure*}
 
 %\begin{table}[!h]
@@ -217,22 +237,32 @@ In this work, the reward $R$ takes a simple form, i.e., the correct tracking is 
 
 \subsection{Proposed DRL-RT} 
 %An applicable deep reinforcement network named the DRL-RT is established for road tracking. It 
-In this section, we describe the neural network (NN) used in DRL-RT, which consists of eight layers: two convention layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
+In this section, we describe the neural network (NN) used in the Deep Reinforcement Learning framework for Road Tracking (DRL-RT), which consists of eight layers: two convention layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
 
-\begin{figure*}[!h]
+
+\begin{figure*}[!ht]
+	\vspace{-6ex}
 	\centering
-	\includegraphics[scale=.5,trim=2cm 5.5cm 2cm 5.5cm,clip]{Deep_Reinf_Net1.pdf}
-	\caption{The main design of the proposed DRL-RT. It consists of two conventional layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer}
-	\label{Fig:Deep_Reinf_Net}
+	\scalebox{0.8}{\includegraphics[scale=.5,trim=2cm 5.5cm 2cm 5.5cm,clip]{Deep_Reinf_Net1.pdf}}
+	
+	\vspace{-4ex}
+	
+	\begin{scriptsize}	\caption{The main design of the proposed DRL-RT. It consists of two conventional layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer\label{Fig:Deep_Reinf_Net}}\end{scriptsize}
+		\vspace{-4ex}
 \end{figure*}
 
-The input of the NN is an image of a car facing view, and it is considered as the current state. The dimension of the input image %size has been 
-is reduced to $254 \times 427 \times 3$ pixels to speed up the training. The first layer after the input is a convolution layer which consists of 5 filters each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. A ReLU layer is used in the second layer. It removes the negative values and maintain the positive values of the previous layer. The third layer is also a convolution layer, it consists of 5 filters each of which has a filter size of $5 \times 5$ pixels. It extracts more features from the input images. A ReLU layer is employed again in the fourth layer. This layer rectifies the negative values. It has empirically been found that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. Then, a pooling layer of a maximum type is applied in the fifth layer, the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
+The input of the NN is an image of a car facing view, and it is considered as the current state. The dimension of the input image is reduced to $254 \times 427 \times 3$ pixels to speed up the training. The first layer is a convolution layer which consists of 5 filters, each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. A ReLU layer is used next and it removes the negative values and maintain the positive values of the previous layer. The 3rd layer is also a convolution layer, consisting of 5 filters each of which has a filter size of $5 \times 5$ pixels. It extracts more features from the input images. A ReLU layer is employed again in the 4th layer. This layer rectifies the negative values. It has empirically been established that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. Then, a pooling layer of a maximum type is applied as the 5th layer； the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
 
-\tl{this is to encode the policy?}
-The sixth layer is a fully connected layer, it collects the outputs from the previous layer and produces a series of decimal code tracking values. A regression layer is the seventh layer. In this layer, a series of directional road tracking codes are generated. \tl{what is successful unsuccessful code?} The successful code in this layer produce positive rewards, whereas, unsuccessful codes generate negative rewards. The network should be propagated, forwarded and backwarded the information for updating the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Table \ref{Table:Signs_codes}. 
+\tl{the sixth layer is to encode the policy?}
+The 6th layer is a fully connected layer. It collects the outputs from the previous layer and produces a series of decimal code tracking values. \tt{The decimal code is generated here in the 6th layer and then in the 7th layer?}In the 7th regression layer, a series of directional road tracking codes are generated. \tl{what is successful unsuccessful code?} The successful code in this layer produce positive rewards, whereas, unsuccessful codes generate negative rewards. The network should propagate the information forward and backward to update the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Section \ref{sec:action}. 
 
-
+We are to address a few technical details in the DRL-RT network. 
+\begin{itemize}
+	\item 
+	
+%\paragraph{States.}
+%\paragraph{}
+\end{itemize}
 %--------------------------------------------------------------
 %\subsection{Theoretical concepts} 
 %\tl{is there anything which is not standard in this section!?}
@@ -286,24 +316,7 @@ The sixth layer is a fully connected layer, it collects the outputs from the pre
 
 \section{Results}
 \subsection{Databases} 
-Four databases from SYNTHIA \cite{Ros2016TheSYNTHIA} are used. The selected databases are constructed under different environment conditions: (1) spring, (2) fog, (3) rain and (4) heavy-rain. Moreover, their segmented images, which are provided by the same database, are found to be useful for manually determining the appropriate code of each track. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	
-\begin{table*}[!t]
-	\centering
-	\caption{Examples of the four employed environments}
-	\label{Table:Environments_Examples}
-	\begin{tabular}{|C{1.5cm}|c|C{8.5cm}|}
-		\hline
-		\textbf{Database no.} & \textbf{Environment} & \textbf{Examples} \\ \hline
-		(1)	& Spring & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 24.5cm 2cm 2.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
-		%			&&\\ \hline
-		(2) & Fog	& \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 20.5cm 2cm 6.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
-		%			&&\\ \hline
-		(3)	& Rain &  \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 16.5cm 2cm 10.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
-		%			&&\\ \hline
-		(4)	& Heavy- rain & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 12.5cm 2cm 14.3cm,clip]{examples.pdf}\end{minipage} \\ \hline
-		%			&&\\ \hline
-	\end{tabular}
-\end{table*}
+Four databases from SYNTHIA \cite{Ros2016TheSYNTHIA} are used. The selected databases are constructed under different environment conditions: (1) spring, (2) fog, (3) rain and (4) heavy-rain. Moreover, their segmented images, which are provided by the same database, are found to be useful for manually determining the appropriate code of each track. 
 
 All implementations were performed by employing a computer with the following facilities: 8 GB RAM and Intel Core i5 processor (3.2 GHz). Only the microprocessor was used in this study to train and test the DRL-RT. The number of frames that have been utilized here are: 270, 284, 268 and 248 frames for the environments of spring, fog, rain and heavy-rain, respectively. The frames are equally divided between the training and testing stages (50\% each), where the odd frames are used in the training stage and the even frames are used in the testing stage.
 
