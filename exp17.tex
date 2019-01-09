@@ -108,9 +108,15 @@
 		\label{Fig:segmentation_regions1}\vspace{-0.5cm}
 	\end{figure*}
 	\subsection{Road Tracking}
-	To differentiate the main objects on the road, specific colours are used in the images, e.g., sky is grey, buildings are brown, roads are purple, side walks are blue and road markings are green. Overall, the purple and green colours refer to the allowed driving regions. The coloured regions have been provided by \cite{Ros2016TheSYNTHIA}.	Each view (image) can be divided into a safety zone and a danger zone. If objects are spotted in the safety zone the car can keep moving, as the zone is further away, allowing ample time to stop or slow down the car if necessary. The danger zone is the area that a car must stop if any objects are recognised. Such zones can be found in Fig.\,\ref{Fig:segmentation_regions1}. 
-	To determine a safety zone or a danger zone, a virtual triangle and trapezoid are drawn. The base of the triangle and trapezoid moves in the road direction, and the crossing lines slope toward the tracking direction. The height of the triangle (and the trapezoid) is two thirds of the image. The top one third of the trapezoid is the safety zone and the bottom two thirds is the danger zone. The shared point of the triangle and the trapezoid is called an \emph{anchor point}. It denotes the road tracking direction by following the track centre. By drawing the virtual triangle in the trapezoid area we can divide the region into left, right and centre region, with which the direction of any crossing objects can be specified. The car can, for instance, avoid an object crossing from the left side by moving to the right, if the space is empty there. If objects are identified from both sides in the danger zone, then the car has to stop.  
-	\subsection{Actions codes} 
+	To differentiate the main objects on the road, the databases provide specific colours for certain objects in the images, e.g., sky is grey, buildings are brown, roads are purple, side walks are blue and road markings are green. Overall, the purple and green colours refer to the allowed driving regions. %The coloured regions have been provided by \cite{Ros2016TheSYNTHIA}.	
+	
+	Based on the images, we further divide each view (image) into a safety zone and a danger zone. If objects are spotted in the safety zone the car can keep moving, as the zone is further away, allowing ample time to stop or slow down the car if necessary. The danger zone is the area that a car must stop if any objects are recognised. Such zones can be found in Fig.\,\ref{Fig:segmentation_regions1}. 
+	
+	To determine a safety zone or a danger zone, a virtual triangle and trapezoid are drawn. The base of the triangle and trapezoid moves in the road direction, and the crossing lines slope toward the tracking direction. The height of the triangle (and the trapezoid) is two thirds of the image. The top one third of the trapezoid is the safety zone and the bottom two thirds is the danger zone. The shared point of the triangle and the trapezoid is called an \emph{anchor point}. It denotes the road tracking direction by following the track centre. 
+	
+	By drawing the virtual triangle in the trapezoid area we can divide the region into left, right and centre region, with which the direction of any crossing objects can be specified. The car can, for instance, avoid an object crossing from the left side by moving to the right, if the space is empty there. If objects are identified from both sides in the danger zone, then the car has to stop. 
+	 
+	\subsection{Actions codes} \label{sec:action}
 	At any point, a car can take one of the following actions: drive straight on, turn left or right, reverse and stop. In our work, we use a five-digit binary number to encode each action, see the table below. %\ref{Table:Signs_codes}. The stop action is applied when the danger zone recognising object(s) in the way from both sides. 
 	%\begin{table}[!h]
 	%	\centering
@@ -119,7 +125,7 @@
 	\vspace{-0.5cm}
 	\begin{center}	\begin{tabular}{|C{2.5cm}|C{1.3cm}|C{2.5cm}|C{5.5cm}|}
 			\hline
-			\textbf{Action sign} & \textbf{Binary code} & \textbf{Equiv.\ decimal code} & \textbf{Description} \\ \hline
+			\textbf{Action sign} & \textbf{Binary code} & \textbf{Equivalent decimal code} & \textbf{Description} \\ \hline
 			Straightforward	& 01110	& 14 & follow the straight track\\ \hline
 			Turn left	& 11100 & 28 & follow the track to the left \\ \hline
 			Turn right	& 00111 & 7 & follow the track to the right \\ \hline
@@ -128,7 +134,7 @@
 		\end{tabular}
 		%\end{table}
 	\end{center}
-	When a crossing object is detected, it will change the action from that side with a ``0". For instance, a car is moving forward with action 01110, then an object appears in the danger zone from left, the action becomes 00111, indicating that the car turns right to avoid the object. If another object appears from the right, the code will be 00110 and the car will have to stop. A car has to stop as long as there are no three consecutive 1's. We model all such cases as 00000 to reduce the number of coding values. Fig. 2 shows various coding cases. The cases in the red dashed box are all coded as 00000.
+	When a crossing object is detected, it will change the code from that side with a ``0". For instance, a car is moving forward with action 01110, then an object appears in the danger zone from left, the action code becomes 00111, indicating that the car turns right to avoid the object. \tt{You didn't say when to turn 0 to 1. For instance why 01110 becomes 00111? It is only stated when 1 should be turned to 0 (with object appearing in the danger zone).}If another object appears from the right, the code will be 00110 and the car will have to stop. A car has to stop as long as there are no three consecutive 1's. We model all such cases as 00000 to reduce the number of coding values. Fig. 2 shows various coding cases. The cases in the red dashed box are all coded as 00000.
 	The binary codes can be converted to desired equivalent decimal codes in the standard way. For instance, $(01110)_2=(14)_{10}$ and $(00111)_2=(7)_{10}$. The only exception here is the backward direction, where a negative sign (-) is added to refer to the reverse movement. It is worth mentioning that the reverse action will only be considered if the car is being out of the track. The decimal codes are used in the regression layer of the proposed deep reinforcement learning network as will be explained later. 
 	%\vspace{-2ex}
 	\begin{figure*}[!ht]
@@ -153,29 +159,50 @@
 	%	\end{tabular}
 	%\end{table}
 	%-----------------------------------------------------------------------------------------
-	\subsection{Policy search} 
-	%Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. 
-	The suggested DRL-RT network is based on the policy search. %According to the MDP concept, the 
-	DRL-RT collects input images as current states $S_t$ (or current views) and getting advantages from rewards $R$ to generate actions $A$, then the actions predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner. %Consequently, the new states can be transitioned again in the inputs as current states. 
-	%The essential equation of the policy search is demonstrated as:
-	%\begin{equation}
-	%\pi^*=\underset{\pi}{argmax}~\mathbb{E} [R\mid\pi]
-	%\label{Eq:MDP}
-	%\end{equation}
-	%where $\pi$ is the policy and $\mathbb{E}$ is the expected return value \cite{arulkumaran2017brief}. 
-	In this work, the reward $R$ takes a simple form, i.e., the correct tracking is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
+%	\subsection{Policy search} 
+%	%Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. 
+%	The suggested DRL-RT network is based on the policy search. %According to the MDP concept, the 
+%	DRL-RT collects input images as current states $S_t$ (or current views) and gets advantages from rewards $R$ to generate actions $A$. The actions then predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner.
+%	
+%	 %Consequently, the new states can be transitioned again in the inputs as current states. 
+%	%The essential equation of the policy search is demonstrated as:
+%	%\begin{equation}
+%	%\pi^*=\underset{\pi}{argmax}~\mathbb{E} [R\mid\pi]
+%	%\label{Eq:MDP}
+%	%\end{equation}
+%	%where $\pi$ is the policy and $\mathbb{E}$ is the expected return value \cite{arulkumaran2017brief}. 
+%	In this work, the reward $R$ takes a simple form, i.e., the correct tracking is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
+	
 	\subsection{Proposed DRL-RT} 
 	%An applicable deep reinforcement network named the DRL-RT is established for road tracking. It 
-	In this section, we describe the neural network (NN) used in DRL-RT, which consists of eight layers: two convention layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
-	\begin{figure*}[!h]
-		\centering
-		\includegraphics[scale=.4,trim=2cm 5.5cm 2cm 5.5cm,clip]{Deep_Reinf_Net1.pdf}
-		\caption{The main design of the proposed DRL-RT. It consists of two conventional layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer}
-		\label{Fig:Deep_Reinf_Net}
-	\end{figure*}
-	The input of the NN is an image of a car facing view, and it is considered as the current state. The dimension of the input image %size has been 
-	is reduced to $254 \times 427 \times 3$ pixels to speed up the training. The first layer after the input is a convolution layer which consists of 5 filters each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. A ReLU layer is used in the second layer. It removes the negative values and maintain the positive values of the previous layer. The third layer is also a convolution layer, it consists of 5 filters each of which has a filter size of $5 \times 5$ pixels. It extracts more features from the input images. A ReLU layer is employed again in the fourth layer. This layer rectifies the negative values. It has empirically been found that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. Then, a pooling layer of a maximum type is applied in the fifth layer, the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
-	The sixth layer is a fully connected layer, it collects the outputs from the previous layer and produces a series of decimal code tracking values. A regression layer is the seventh layer. In this layer, a series of directional road tracking codes are generated. The successful tracking code in this layer produce positive rewards, whereas, unsuccessful tracking codes generate negative rewards. The network should be propagated, forwarded and backwarded the information for updating the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as mentioned. 
+	In this section, we describe the neural network (NN) used in the Deep Reinforcement Learning framework for Road Tracking (DRL-RT), which consists of eight layers: two convention layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
+\begin{figure*}[!ht]
+	\vspace{-6ex}
+	\centering
+	\scalebox{0.8}{\includegraphics[scale=.5,trim=2cm 5.5cm 2cm 5.5cm,clip]{Deep_Reinf_Net1.pdf}}
+	
+	\vspace{-4ex}
+	
+	\begin{scriptsize}	\caption{The main design of the proposed DRL-RT. It consists of two conventional layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer\label{Fig:Deep_Reinf_Net}}\end{scriptsize}
+	\vspace{-4ex}
+\end{figure*}
+
+The input of the NN is an image of a car facing view, and it is considered as the current state. The dimension of the input image is reduced to $254 \times 427 \times 3$ pixels to speed up the training. The first layer is a convolution layer which consists of 5 filters, each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. A ReLU layer is used next and it removes the negative values and maintain the positive values of the previous layer. The 3rd layer is also a convolution layer, consisting of 5 filters each of which has a filter size of $5 \times 5$ pixels. It extracts more features from the input images. A ReLU layer is employed again in the 4th layer. This layer rectifies the negative values. It has empirically been established that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. Then, a pooling layer of a maximum type is applied as the 5th layer； the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
+
+\tl{the sixth layer is to encode the policy?}
+The 6th layer is a fully connected layer. It collects the outputs from the previous layer and produces a series of decimal code tracking values. \tt{The decimal code is generated here in the 6th layer and then in the 7th layer?}In the 7th regression layer, a series of directional road tracking codes are generated. \tl{what is successful unsuccessful code?} The successful code in this layer produce positive rewards, whereas, unsuccessful codes generate negative rewards. The network should propagate the information forward and backward to update the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Section \ref{sec:action}. 
+
+We are to address a few technical details in the DRL-RT network. The underlying model of the network is a Markov Decision Process (MDP). 
+\begin{itemize}
+	\item \emph{States.} The states in the MDP are the views (images).  
+	\item \emph{Rewards.} The reward $R$ takes a simple form, i.e., the correct tracking 	\tt{what do you mean by correct tracking? How to tell whether a tracking is correct? Comparing to the training set? Elaborate here.} is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
+
+	
+	\item \emph{Policy search.} The DRL-RT network is based on the policy search. %According to the MDP concept, the 
+	DRL-RT collects input images as current states $S_t$ (or current views) and gets advantages from rewards $R$ to generate actions $A$. The actions then predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner.
+
+\end{itemize}
+ 
 	%--------------------------------------------------------------
 	%\subsection{Theoretical concepts} 
 	%\tl{is there anything which is not standard in this section!?}
@@ -244,7 +271,7 @@
 		\end{tabular}
 	\end{table*}
 	All implementations were performed by employing a computer with the following facilities: 8 GB RAM and Intel Core i5 processor (3.2 GHz). Only the microprocessor was used in this study to train and test the DRL-RT. The number of frames that have been utilized here are: 270, 284, 268 and 248 frames for the environments of spring, fog, rain and heavy-rain, respectively. The frames are equally divided between the training and testing stages (50\% each), where the odd frames are used in the training stage and the even frames are used in the testing stage.
-	\begin{figure}[!t]
+	\begin{figure}[!ht]
 		\centering
 		\includegraphics[scale=.5,trim=.5cm 10cm 4cm .5cm,clip]{training_curves.pdf}
 		\caption{The training performance of the DRL-RT for the: (1) spring environment, (2) fog environment, (3) rain environment and (4) heavy-rain environment}
