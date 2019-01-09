@@ -48,7 +48,7 @@
 	}
 	\maketitle              % typeset the title of the contribution
 	\begin{abstract}
-		Deep reinforcement learning has recently aroused wide attentions. It combines deep learning with reinforcement learning to solve difficult tasks. This paper proposes an efficient deep reinforcement learning network to solve road tracking problems. The network collects input states from forward car facing views and produces suitable road tracking actions. The actions are derived from encoding the tracking directions and movements. We explored both value iteration and policy iteration based deep reinforcement learning algorithms. A comparison between the two and a comparison with existing networks are provided. Our results are very promising - the best driving accuracy achieved 93.94\%, the highest in the comparison. 
+		Deep reinforcement learning has recently aroused wide attentions. It combines deep learning with reinforcement learning to solve difficult tasks. This paper proposes an efficient deep reinforcement learning network to solve the road tracking problem. We propose a neural network which collects input states from forward car facing views and produces suitable road tracking actions. The actions are derived from encoding the tracking directions and movements. We explored both value iteration and policy iteration based deep reinforcement learning algorithms. A comparison between the two and a comparison with existing networks are provided. Our results are very promising - the best driving accuracy achieved 93.94\%, the highest in the comparison. 
 		% We would like to encourage you to list your keywords within
 		% the abstract section using the \keywords{...} command.
 		\keywords{Road Tracking, Deep Reinforcement Learning, Markov Decision Process}
@@ -63,10 +63,9 @@
 	%While the integration of reinforcement learning and neural networks has a long history, % (Sutton and Barto, 2018; Bertsekas and Tsitsiklis, 1996; Schmidhuber, 2015). With recent exciting achievements of
 	%deep learning (LeCun et al., 2015; Goodfellow et al., 2016), benefiting from big data, powerful computation, new algorithmic techniques, mature software packages and architectures, and strong financial support, we have been witnessing the 
 	%there is renaissance of reinforcement learning (Krakovsky, 2016), especially, 
-	The combination of deep neural networks and reinforcement learning gives rise to deep
-	reinforcement learning (deep RL). We hypothesise that deep reinforcement learning %\cite{} is considered as 
+	The combination of deep neural networks and reinforcement learning gives rise to deep reinforcement learning (deep RL). We hypothesise that deep reinforcement learning %\cite{} is considered as 
 	can be one of the most promising %proficient 
-	methods %that can be applied 
+	methods %that can be applied    
 	to address 
 	the road tracking challenge, and this paper %is concerned with 
 	reports our approaches and results to apply DRL to accomplish some typical tasks in road tracking. 
@@ -100,7 +99,7 @@
 	
 	%----------------------------------------------------------------------------------------------------------------
 	\section{Modelling}
-	In this section, we are to address various essential issues to model the road tracking, such as how to identify road crossing object(s), how to encode different tracking directions, and how to design the deep reinforcement learning network to determine the next action, etc. 
+	In this section, we address various essential issues to model the road tracking, such as how to identify road crossing object(s), how to encode different tracking directions, and how to design the deep reinforcement learning network to determine the next action, etc. 
 	\paragraph{The database.} Our research is based on the SYNTHIA-SEQS-05 database \cite{Ros2016TheSYNTHIA}. Video sequences were recorded and saved, from which one extracted front, rear, left and right view road images around the car for both right and left steering cars. Each view covers a range of angle up to 100 degrees. As a result, a large number of simulated image frames were provided, each has a resolution of $760 \times 1,280 \times 3$ pixel. 
 	
 	The images were taken in four different environments: (1) clear environment in spring, (2) fog, (3) rain and (4) heavy-rain environment. In our study, we look at \emph{forward} view road frames for a \emph{right} steering car in all \emph{four} environments. 
