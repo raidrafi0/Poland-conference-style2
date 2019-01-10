@@ -26,14 +26,14 @@
 \begin{document}
 	\mainmatter              % start of a contribution
 	%
-	\title{Road Tracking Using Deep Reinforcement Learning for Self-Driving Car Applications\thanks{This work is supported by EPSRC grants EP/P00430X/1 and EP/P015387/1.}}
+\title{Road Tracking Using Deep Reinforcement Learning for Self-Driving Car Applications\thanks{This work is supported by EPSRC grants EP/P00430X/1 and EP/P015387/1.}}
 	%
-	\titlerunning{Road Tracking}  % abbreviated title (for running head)
+\titlerunning{Road Tracking}  % abbreviated title (for running head)
 	%                                     also used for the TOC unless
 	%                                     \toctitle is used
 	%
-	\author{Raid Rafi Omar Al-Nima\inst{1,2} \and Tingting Han\inst{2} \and 
-		Taolue Chen\inst{2}}
+	\author{Raid Rafi Omar Al-Nima\inst{1,2} \and Tingting Han\inst{1} \and 
+		Taolue Chen\inst{1}}
 	%
 	\authorrunning{Raid Al-Nima et al.} % abbreviated author list (for running head)
 	%
@@ -47,12 +47,15 @@
 		%\email{tingting@dcs.bbk.ac.uk,t.chen@dcs.bbk.ac.uk}
 	}
 	\maketitle              % typeset the title of the contribution
-	\begin{abstract}
-		Deep reinforcement learning has recently aroused wide attentions. It combines deep learning with reinforcement learning to solve difficult tasks. This paper proposes an efficient deep reinforcement learning network to solve the road tracking problem. We propose a neural network which collects input states from forward car facing views and produces suitable road tracking actions. The actions are derived from encoding the tracking directions and movements. We explored both value iteration and policy iteration based deep reinforcement learning algorithms. A comparison between the two and a comparison with existing networks are provided. Our results are very promising - the best driving accuracy achieved 93.94\%, the highest in the comparison. 
+\begin{abstract}
+	Deep reinforcement learning has received wide attentions recently, which combines deep learning with reinforcement learning to solve unprecedented challenging tasks. This paper proposes an efficient deep reinforcement learning network to solve the road tracking problem. We propose a neural network which collects input states from forward car facing views and produces suitable road tracking actions. The actions are derived from encoding the tracking directions and movements. 
+	%We explore both value iteration and policy iteration based deep reinforcement learning algorithms. A comparison between the two and 
+	We perform extensive experiments and show the efficacy of our approach, which has achieved 93.94\% driving  accuracy outperforming other approaches in literature. 
+	%A comparison with existing networks are provided. Our results are very promising - the best driving accuracy achieved 93.94\%, the highest in the comparison. 
 		% We would like to encourage you to list your keywords within
 		% the abstract section using the \keywords{...} command.
-		\keywords{Road Tracking, Deep Reinforcement Learning, Markov Decision Process}
-	\end{abstract}
+		\keywords{Road Tracking, Deep Reinforcement Learning} %, Markov Decision Process}
+\end{abstract}
 	%----------------------------------------------------------------------------------------------------
 	\section{Introduction}
 	Road tracking is one of the most challenging tasks emerged from key applications such as autonomous driving. It aims to automatically guide a car through the correct track without crashing other cars or objects.  
