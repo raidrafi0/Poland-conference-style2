@@ -159,6 +159,7 @@
 		%\end{table}
 	\end{center}
 	When a crossing object is detected, it will change the code from that side with a ``0". For instance, a car is moving forward with action 01110, then an object appears in the danger zone from left, the action code becomes 00111, indicating that the car turns right to avoid the object. \tt{You didn't say when to turn 0 to 1. For instance why 01110 becomes 00111? It is only stated when 1 should be turned to 0 (with object appearing in the danger zone).}If another object appears from the right, the code will be 00110 and the car will have to stop. A car has to stop as long as there are no three consecutive 1's. We model all such cases as 00000 to reduce the number of coding values. Fig. 2 shows various coding cases. The cases in the red dashed box are all coded as 00000.
+	
 	The binary codes can be converted to desired equivalent decimal codes in the standard way. For instance, $(01110)_2=(14)_{10}$ and $(00111)_2=(7)_{10}$. The only exception here is the backward direction, where a negative sign (-) is added to refer to the reverse movement. It is worth mentioning that the reverse action will only be considered if the car is being out of the track. The decimal codes are used in the regression layer of the proposed deep reinforcement learning network as will be explained later. 
 	%\vspace{-2ex}
 	\begin{figure*}[!ht]
