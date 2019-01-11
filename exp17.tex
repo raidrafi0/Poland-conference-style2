@@ -98,9 +98,10 @@
 	%After the introduction, this paper is organized as follows: Section 2 states the methodology with the theoretical concepts, Section 3 discusses the results and Section 4 concludes the paper.
 	
 	\paragraph{Related work.} 
-	Due to space restriction, we can only discuss related work briefly focus on those pertinent to RL and tracking. %\emph{Tracking Object:} In 2000, 
-	For tracking objects, Grigore and Grigore \cite{Grigore2000Reinforcement} proposed a tracking system controller by using a recurrent neural network with the reinforcement learning. %In 2010, 
-	Cohen and Pavlovic \cite{Cohen2010Reinforcement} suggested an effective and vigorous real-time tracker, which utilized RL and was applied to tracking personal faces. In 2004, Liu and Su proposed an object tracking method by exploiting the reinforcement learning. The reinforcement learning was employed here to determine the features of the tracking object \cite{Liu2004Reinforcement}. In 2017, Supan\v{c}i\v{c} and Ramanan constructed a learning policy for tracking objects. The reinforcement learning was applied to video streams to provide on-line decision \cite{Supancic2017Tracking}. 
+	Due to space restriction, we can only discuss related work briefly, focusing on those pertinent to applying reinforcement learning for tracking objects purpose. %\emph{Tracking Object:} In 2000, 
+	For tracking objects, Grigore and Grigore \cite{Grigore2000Reinforcement} proposed a tracking system controller by using a recurrent neural network combined  with the reinforcement learning. %In 2010, 
+	Cohen and Pavlovic \cite{Cohen2010Reinforcement} suggested an effective and vigorous real-time tracker, which utilized reinforcement learning and was applied to tracking personal faces. Liu and Su proposed an object tracking method %by exploiting the reinforcement learning. The reinforcement learning was employed here to 
+	determine the features of the tracking object \cite{Liu2004Reinforcement}. Supan\v{c}i\v{c} and Ramanan constructed a learning policy for tracking objects. The reinforcement learning was applied to video streams to provide on-line decision \cite{Supancic2017Tracking}. 
 	
 	%\emph{Different Tracking Issues:} In 2009, Jinlin \textit{et al.} presented a velocity tracking control approach. The authors utilized the neuro-fuzzy technique with the Q-learning in their work \cite{Jinlin2009Neurofuzzy}. In 2011, Hall \textit{et al.} illustrated a single and double pendulum tracking model. A traditional control, Bayesian computations and reinforcement learning were employed in this publication \cite{Hall2011Reinforcement}. In 2013, Sootla \textit{et al.} described a tracking periodic gene repressilator. The fitted Q iteration algorithm was applied to one dimensional signals in this study \cite{Sootla2013On}. In 2015, Wei \textit{et al.} explained tracking a maximum power for wind speed conversion systems. In this paper, a model-free Q-learning method was exploited \cite{Wei2015Reinforcement}. 
 	%	\emph{Deep Leaning Tracking:} In 2017, Perot \textit{et al.} investigated tracking roads of a driving car. A deep reinforcement learning was used \cite{Perot2017End}. The main problem in this work is that the driving car oscillates around the main road track. This is due to the selected reward in this study, where it utilized the oriented angle of the road with the car speed. In 2017 and 2018, Yun \textit{et al.} approached an action-decision network (ADNet) to track objects. The ADNet is a deep reinforcement learning network and it was applied in a quite complicated way, where a pre-trained Convolutional Neural Network (CNN) was firstly employed then the reinforcement learning was utilized \cite{Yun2017Action}\cite{Yun2018Action}. 
@@ -240,7 +241,7 @@ This is followed by a ReLU layer is used next which removes the negative values 
 
 \item The sixth layer is a fully connected layer. It collects the outputs (2 dimensional) from the previous layer and produces a series (1 dimensional) of values for the next layer. 
 
-\item In the 7th regression layer, a series of directional road tracking codes are generated. The successful tracking codes in this layer produce positive rewards, whereas, unsuccessful tracking codes generate negative rewards. 
+\item In the seventh regression layer, a series of directional road tracking codes are generated. The successful tracking codes in this layer produce positive rewards, whereas, unsuccessful tracking codes generate negative rewards. 
 \end{itemize}
 
 The network should propagate the information forward and backward to update the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Table~\ref{Table:Signs_codes}. 
@@ -363,21 +364,20 @@ All implementations were performed on a PC with 8 GB RAM and Intel Core i5 proce
 	%In the case of comparisons, hard efforts were performed to investigate and simulate various deep learning approaches. 
 
 \begin{table}
-	\vspace{-2ex}
+%	\vspace{-2ex}
 	\centering
 	\begin{tabular}{|C{5cm}|c|c|}
 		\hline
-		\textbf{Reference} & \textbf{Deep learning method} & \textbf{Accuracy} \\ \hline
+		\textbf{Reference} & \textbf{Neural networks} & \textbf{Accuracy} \\ \hline
 		Karaduman and Eren \cite{Karaduman2017Deep} & CNN & 67.42\% \\ \hline
 		Bojarski \textit{et al.} \cite{bojarski2016end} & CNN & 74.24\% \\ \hline
 		George and Routray \cite{George2016Real} & CNN & 83.33\% \\ \hline
 		Yun \textit{et al.} \cite{Yun2017Action,Yun2018Action} & ADNet & 83.33\% \\ \hline
 		Mnih \textit{et al.} \cite{mnih2015human} & DQN & 88.64\% \\ \hline
-		Proposed method & DRL-RT & 93.94\% \\ \hline
+		This work & DRL-RT & 93.94\% \\ \hline
 	\end{tabular}	
-\vspace{2ex}
-\caption{A comparison between the DRL-RT method and other suggested networks}
-\label{Table:Comparisons}
+%\vspace{2ex}
+\caption{A comparison between the DRL-RT method and other suggested networks\label{Table:Comparisons}}
 \end{table}
 
 From Table~\ref{Table:Comparisons}, it can be seen that the suggested CNN in \cite{Karaduman2017Deep} obtained the inferior tracking accuracy of 67.42\%. This is due to the architecture of this network, where it was constructed to classify directions of traffic signs. More specifically, a pooling layer was applied after each convolution layer and no ReLU layers were used. This caused compressing and wasting useful extracted features after each convolution layer. 
