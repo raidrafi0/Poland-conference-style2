@@ -27,39 +27,39 @@
 \begin{document}
 	\mainmatter              % start of a contribution
 	%
-\title{Road Tracking Using Deep Reinforcement Learning for Self-Driving Car Applications
-\thanks{This work is supported by EPSRC grants EP/P00430X/1 and EP/P015387/1.}}
+	\title{Road Tracking Using Deep Reinforcement Learning for Self-Driving Car Applications
+		\thanks{This work is supported by EPSRC grants EP/P00430X/1 and EP/P015387/1.}}
 	%
-\titlerunning{DRL for Road Tracking}  % abbreviated title (for running head)
+	\titlerunning{DRL for Road Tracking}  % abbreviated title (for running head)
 	%                                     also used for the TOC unless
 	%                                     \toctitle is used
 	%
-\author{Raid Rafi Omar Al-Nima\inst{1,2} \and Tingting Han\inst{1} \and Taolue Chen\inst{1}}
+	\author{Raid Rafi Omar Al-Nima\inst{2} \and Tingting Han\inst{1} \and Taolue Chen\inst{1}}
 	%
-\authorrunning{Raid Al-Nima et al.} % abbreviated author list (for running head)
+	\authorrunning{Raid Al-Nima et al.} % abbreviated author list (for running head)
 	%
 	%%%% list of authors for the TOC (use if author list has to be modified)
-\tocauthor{Raid Rafi Omar Al-Nima, Tingting Han, and Taolue Chen}
+	\tocauthor{Raid Rafi Omar Al-Nima, Tingting Han, and Taolue Chen}
 	%
-\institute{
+	\institute{
 		%\email{raidrafi1@gmail.com}\\ 
 		DCSIS, Birkbeck University of London	\and
 		Technical Engineering College of Mosul, Northern Technical University, Iraq
 		%\email{tingting@dcs.bbk.ac.uk,t.chen@dcs.bbk.ac.uk}
-}
-\maketitle               
-
-%=========================================================================================================
-\begin{abstract}
-	Deep reinforcement learning has received wide attentions recently. It combines deep learning with reinforcement learning and shows to be able to solve unprecedented challenging tasks. This paper proposes an efficient approach based on deep reinforcement learning to tackle the road tracking problem arisen from self-driving car applications. We propose a new neural network which collects input states from forward car facing views and produces suitable road tracking actions. The actions are derived from encoding the tracking directions and movements. 
-	%We explore both value iteration and policy iteration based deep reinforcement learning algorithms. A comparison between the two and 
-	We perform extensive experiments and demonstrate the efficacy of our approach. In particular, our approach has achieved 93.94\% driving  accuracy, outperforming the state-of-the-art approaches in literature. 
-	%A comparison with existing networks are provided. Our results are very promising - the best driving accuracy achieved 93.94\%, the highest in the comparison. 
-
-	\keywords{Road Tracking, Deep Reinforcement Learning, Self-Driving} %, Markov Decision Process}
-\end{abstract}
-
-%----------------------------------------------------------------------------------------------------
+	}
+	\maketitle               
+	
+	%=========================================================================================================
+	\begin{abstract}
+		Deep reinforcement learning has received wide attentions recently. It combines deep learning with reinforcement learning and shows to be able to solve unprecedented challenging tasks. This paper proposes an efficient approach based on deep reinforcement learning to tackle the road tracking problem arisen from self-driving car applications. We propose a new neural network which collects input states from forward car facing views and produces suitable road tracking actions. The actions are derived from encoding the tracking directions and movements. 
+		%We explore both value iteration and policy iteration based deep reinforcement learning algorithms. A comparison between the two and 
+		We perform extensive experiments and demonstrate the efficacy of our approach. In particular, our approach has achieved 93.94\% driving  accuracy, outperforming the state-of-the-art approaches in literature. 
+		%A comparison with existing networks are provided. Our results are very promising - the best driving accuracy achieved 93.94\%, the highest in the comparison. 
+		
+		\keywords{Road Tracking, Deep Reinforcement Learning, Self-Driving} %, Markov Decision Process}
+	\end{abstract}
+	
+	%----------------------------------------------------------------------------------------------------
 	\section{Introduction}
 	Road tracking is one of the most challenging tasks emerged from key applications such as autonomous driving. It aims to automatically guide a car through the correct track without crashing other cars or objects.  
 	%In a nutshell, it combines reinforcement learning (RL) and deep learning: 
@@ -106,17 +106,17 @@
 	%\emph{Different Tracking Issues:} In 2009, Jinlin \textit{et al.} presented a velocity tracking control approach. The authors utilized the neuro-fuzzy technique with the Q-learning in their work \cite{Jinlin2009Neurofuzzy}. In 2011, Hall \textit{et al.} illustrated a single and double pendulum tracking model. A traditional control, Bayesian computations and reinforcement learning were employed in this publication \cite{Hall2011Reinforcement}. In 2013, Sootla \textit{et al.} described a tracking periodic gene repressilator. The fitted Q iteration algorithm was applied to one dimensional signals in this study \cite{Sootla2013On}. In 2015, Wei \textit{et al.} explained tracking a maximum power for wind speed conversion systems. In this paper, a model-free Q-learning method was exploited \cite{Wei2015Reinforcement}. 
 	%	\emph{Deep Leaning Tracking:} In 2017, Perot \textit{et al.} investigated tracking roads of a driving car. A deep reinforcement learning was used \cite{Perot2017End}. The main problem in this work is that the driving car oscillates around the main road track. This is due to the selected reward in this study, where it utilized the oriented angle of the road with the car speed. In 2017 and 2018, Yun \textit{et al.} approached an action-decision network (ADNet) to track objects. The ADNet is a deep reinforcement learning network and it was applied in a quite complicated way, where a pre-trained Convolutional Neural Network (CNN) was firstly employed then the reinforcement learning was utilized \cite{Yun2017Action}\cite{Yun2018Action}. 
 	
-%----------------------------------------------------------------------------------------------------------------
-\section{Modelling}
-In this section, we address various essential issues to model the road tracking, such as how to identify road crossing object(s), how to encode different tracking directions, and how to design the deep reinforcement learning network to determine the next action, etc. 
-
-\paragraph{The database.} Our research is based on the SYNTHIA-SEQS-05 database \cite{Ros2016TheSYNTHIA}. Video sequences were recorded and saved, from which one extracted front, rear, left and right view road images around the car for both right and left steering cars. Each view covers a range of angle up to 100 degrees. As a result, a large number of simulated image frames were provided, each has a resolution of $760 \times 1,280 \times 3$ pixel. 
+	%----------------------------------------------------------------------------------------------------------------
+	\section{Modelling}
+	In this section, we address various essential issues to model the road tracking, such as how to identify road crossing object(s), how to encode different tracking directions, and how to design the deep reinforcement learning network to determine the next action, etc. 
 	
-The images were taken in four different environments: (1) clear environment in spring, (2) fog, (3) rain and (4) heavy-rain environment. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	In our study, we look at \emph{forward} view road frames for a \emph{right} steering car in all \emph{four} environments. 
+	\paragraph{The database.} Our research is based on the SYNTHIA-SEQS-05 database \cite{Ros2016TheSYNTHIA}. Video sequences were recorded and saved, from which one extracted front, rear, left and right view road images around the car for both right and left steering cars. Each view covers a range of angle up to 100 degrees. As a result, a large number of simulated image frames were provided, each has a resolution of $760 \times 1,280 \times 3$ pixel. 
 	
-\begin{table*}[!ht]
+	The images were taken in four different environments: (1) clear environment in spring, (2) fog, (3) rain and (4) heavy-rain environment. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	In our study, we look at \emph{forward} view road frames for a \emph{right} steering car in all \emph{four} environments. 
+	
+	\begin{table*}[!ht]
 		\centering
-	
+		
 		\begin{tabular}{|C{2.5cm}|C{8.5cm}|}
 			\hline
 			\textbf{Environment} & \textbf{Examples} \\ \hline
@@ -129,8 +129,8 @@ The images were taken in four different environments: (1) clear environment in s
 			Heavy-rain & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 12.5cm 2cm 14.3cm,clip]{examples.pdf}\end{minipage} \\ \hline
 			%			&&\\ \hline
 		\end{tabular}	
-	\vspace{2ex}\caption{Examples of the four employed environments}
-	\label{Table:Environments_Examples}
+		\vspace{2ex}\caption{Examples of the four employed environments}
+		\label{Table:Environments_Examples}
 	\end{table*}
 	
 	
@@ -141,8 +141,8 @@ The images were taken in four different environments: (1) clear environment in s
 		\caption{The suggested front view road tracking zones, lines and anchor point}
 		\label{Fig:segmentation_regions1}%\vspace{-0.5cm}
 	\end{figure*}
-%-------------------------------------------------------------------------
-\subsection{Road tracking}
+	%-------------------------------------------------------------------------
+	\subsection{Road tracking}
 	To differentiate the main objects on the road, the databases provide specific colours for certain objects in the images, e.g., sky is grey, buildings are brown, roads are purple, side walks are blue and road markings are green. Overall, the purple and green colours refer to the allowed driving regions. %The coloured regions have been provided by \cite{Ros2016TheSYNTHIA}.	
 	
 	Based on the images, we further divide each view (image) into a safety zone and a danger zone. If objects are spotted in the safety zone the car can keep moving, as the zone is further away, allowing ample time to stop or slow down if necessary. The danger zone is the area that a car must stop if any objects are recognised. Such zones can be found in Fig.\,\ref{Fig:segmentation_regions1}. 
@@ -150,14 +150,14 @@ The images were taken in four different environments: (1) clear environment in s
 	To determine a safety zone or a danger zone, a virtual triangle and trapezoid are drawn. The base of the triangle and trapezoid moves in the road direction, and the crossing lines slope toward the tracking direction. The height of the triangle (and the trapezoid) is two thirds of the image. The top one third of the trapezoid is the safety zone and the bottom two thirds is the danger zone. The shared point of the triangle and the trapezoid is called an \emph{anchor point}. It denotes the road tracking direction by following the track centre. 
 	
 	By drawing the virtual triangle in the trapezoid area we can divide the region into left, right and centre region, with which the direction of any crossing objects can be specified. The car can, for instance, avoid an object crossing from the left side by moving to the right, if the space is empty there. If objects are identified from both sides in the danger zone, then the car has to stop. 
-	 
+	
 	\subsection{Actions codes} \label{sec:action}
 	At each deciison point, a car can take one of the following actions: drive straight on, turn left or right, reverse and stop. In our work, we use a five-digit binary number to encode each action, see Table\,\ref{Table:Signs_codes}. %The stop action is applied when the danger zone recognising object(s) in the way from both sides. 
 	
 	\begin{table}[!h]
 		\centering
-	%	\vspace{-0.5cm}
-	\begin{tabular}{|C{2.5cm}|C{1.3cm}|C{2.5cm}|C{5.5cm}|}
+		%	\vspace{-0.5cm}
+		\begin{tabular}{|C{2.5cm}|C{1.3cm}|C{2.5cm}|C{5.5cm}|}
 			\hline
 			\textbf{Action sign} & \textbf{Binary code} & \textbf{Equivalent decimal code} & \textbf{Description} \\ \hline
 			Straightforward	& 01110	& 14 & follow the straight track\\ \hline
@@ -166,21 +166,21 @@ The images were taken in four different environments: (1) clear environment in s
 			Stop& 00000 & 0 & object(s) identified from both sides\\ \hline
 			Backwards& 11111 & -31 & reverse \\ \hline
 		\end{tabular}
-\vspace{0.2cm}
-	\caption{The road tracking actions with their suggested codes and descriptions}
-\label{Table:Signs_codes}
-		\end{table}
+		\vspace{0.2cm}
+		\caption{The road tracking actions with their suggested codes and descriptions}
+		\label{Table:Signs_codes}
+	\end{table}
 	
-When a crossing object is detected, it will change the code from that side with a ``0". For instance, a car is moving forward with action 01110, then an object appears in the danger zone from left, the action code becomes 00111, indicating that the car turns right to avoid the object. If another object appears from the right, the code will be 00110 and the car will have to stop. A car has to stop as long as there are no three consecutive 1's. We model all such cases as 00000 to reduce the number of coding values. Fig.\,\ref{Fig:segmentation} shows various coding cases. The cases in the red dashed box are all coded as 00000.
+	When a crossing object is detected, it will change the code from that side with a ``0". For instance, a car is moving forward with action 01110, then an object appears in the danger zone from left, the action code becomes 00111, indicating that the car turns right to avoid the object. If another object appears from the right, the code will be 00110 and the car will have to stop. A car has to stop as long as there are no three consecutive 1's. We model all such cases as 00000 to reduce the number of coding values. Fig.\,\ref{Fig:segmentation} shows various coding cases. The cases in the red dashed box are all coded as 00000.
 	
-The binary codes can be converted to desired equivalent decimal codes in the standard way. For instance, $(01110)_2=(14)_{10}$ and $(00111)_2=(7)_{10}$. The only exception here is the backward direction, where a negative sign (-) is added to refer to the reverse movement. It is worth mentioning that the reverse action will only be considered if the car is being out of the track. The decimal codes are used in the regression layer of the proposed deep reinforcement learning network as will be explained later. 
-
-
+	The binary codes can be converted to desired equivalent decimal codes in the standard way. For instance, $(01110)_2=(14)_{10}$ and $(00111)_2=(7)_{10}$. The only exception here is the backward direction, where a negative sign (-) is added to refer to the reverse movement. It is worth mentioning that the reverse action will only be considered if the car is being out of the track. The decimal codes are used in the regression layer of the proposed deep reinforcement learning network as will be explained later. 
+	
+	
 	\begin{figure*}[!ht]
 		\centering
 		\includegraphics[scale=.33,trim=2cm 35cm 0cm 2cm,clip]{segmentation3.pdf}			
 		\begin{scriptsize}\vspace{-4ex}\caption{Segmented images for road tracking: (a) straightforward, (b) turning left, (c) turning right, (d) reverse or backward, (e-g) stopping action because of a single crossing object, (h-j) stopping action because of two crossing objects and (k) stopping action because of three crossing objects}	\label{Fig:segmentation}\end{scriptsize}
-	
+		
 	\end{figure*}
 	%\begin{table}[!h]
 	%	\centering
@@ -197,69 +197,69 @@ The binary codes can be converted to desired equivalent decimal codes in the sta
 	%	\end{tabular}
 	%\end{table}
 	%-----------------------------------------------------------------------------------------
-%	\subsection{Policy search} 
-%	%Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. 
-%	The suggested DRL-RT network is based on the policy search. %According to the MDP concept, the 
-%	DRL-RT collects input images as current states $S_t$ (or current views) and gets advantages from rewards $R$ to generate actions $A$. The actions then predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner.
-%	
-%	 %Consequently, the new states can be transitioned again in the inputs as current states. 
-%	%The essential equation of the policy search is demonstrated as:
-%	%\begin{equation}
-%	%\pi^*=\underset{\pi}{argmax}~\mathbb{E} [R\mid\pi]
-%	%\label{Eq:MDP}
-%	%\end{equation}
-%	%where $\pi$ is the policy and $\mathbb{E}$ is the expected return value \cite{arulkumaran2017brief}. 
-%	In this work, the reward $R$ takes a simple form, i.e., the correct tracking is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
+	%	\subsection{Policy search} 
+	%	%Principally, there are two essential types of reinforcement learning methods - policy iteration and value iteration. The first type refers to methods that consider searching for the optimal policy $\pi^*$. The second type refers to methods that consider investigating the optimal value-state function $V^*(s)$ \cite{Arulkumaran2017Deep}. 
+	%	The suggested DRL-RT network is based on the policy search. %According to the MDP concept, the 
+	%	DRL-RT collects input images as current states $S_t$ (or current views) and gets advantages from rewards $R$ to generate actions $A$. The actions then predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner.
+	%	
+	%	 %Consequently, the new states can be transitioned again in the inputs as current states. 
+	%	%The essential equation of the policy search is demonstrated as:
+	%	%\begin{equation}
+	%	%\pi^*=\underset{\pi}{argmax}~\mathbb{E} [R\mid\pi]
+	%	%\label{Eq:MDP}
+	%	%\end{equation}
+	%	%where $\pi$ is the policy and $\mathbb{E}$ is the expected return value \cite{arulkumaran2017brief}. 
+	%	In this work, the reward $R$ takes a simple form, i.e., the correct tracking is considered as (+1), whereas, the reward $R$ of the incorrect tracking is considered as (-1). Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
 	
-\subsection{Proposed DRL-RT} 
+	\subsection{Proposed DRL-RT} 
 	%An applicable deep reinforcement network named the DRL-RT is established for road tracking. It 
-	In this section, we present the neural network (NN) used in the Deep Reinforcement Learning framework for Road Tracking (DRL-RT), which consists of eight layers: two convolution layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
-
-\begin{figure*}[!h]
-	\vspace{-2ex}
-	\centering
-	\scalebox{0.8}{\includegraphics[scale=.5,trim=2cm 5.5cm 2cm 5.5cm,clip]{Deep_Reinf_Net1.pdf}}
-	%
-	\vspace{-2ex}
-	%
-	\begin{scriptsize}	
-		\caption{The main design of the proposed DRL-RT. It consists of two convolution layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer\label{Fig:Deep_Reinf_Net}}
-	\end{scriptsize}
-%	\vspace{-4ex}
-\end{figure*}
-
-We now elaborate the NN architecture as follows:
-\begin{itemize}
-\item The input of the NN is an image of a car facing view which is considered as the current state. The dimension of the input image is reduced to $254 \times 427 \times 3$ pixels to speed up the training. 
-
-\item The first layer is a convolution layer which consists of 5 filters, each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. 
-This is followed by a ReLU layer is used next which removes the negative values and maintains the positive values of the previous layer. 
-
-\item The third layer is again a convolution layer, consisting of 5 filters each of which has a filter size of $5 \times 5$ pixels. This layer extracts more features from the input images. The same as before, a ReLU layer is employed in the following layer, which rectifies the negative values. We note that it has empirically been established that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. 
-
-\item A pooling layer of a maximum type is applied as the fifth layer； the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
-
-\item The sixth layer is a fully connected layer. It collects the outputs (2 dimensional) from the previous layer and produces a series (1 dimensional) of values for the next layer. 
-
-\item In the seventh regression layer, a series of directional road tracking codes are generated. The successful tracking codes in this layer produce positive rewards, whereas, unsuccessful tracking codes generate negative rewards. 
-\end{itemize}
-
-The network should propagate the information forward and backward to update the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Table~\ref{Table:Signs_codes}. 
-
-%\bigskip
-
-%We are to address a few technical details in 
-For the theory underpinning the DRL-RT network, the underlying model of the network is essentially cast into a Markov Decision Process (MDP) framework with the following instantiations:
-\begin{itemize}
-	\item \emph{States.} The states in the MDP are the views (images).  
-	\item \emph{Rewards.} The reward $R$ takes a simple form, i.e., the correct tracking is considered as ($+1$), whereas, the reward $R$ of the incorrect tracking is considered as ($-1$). The correct and incorrect tracking are specified by comparing the regression layer outputs with the desired tracking codes. Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
-
+	In this section, we present the neural network (NN) used in the Deep Reinforcement Learning framework for Road Tracking (DRL-RT), which consists of eight layers: two convolution layers, two Rectified Linear Unit (ReLU) layers, a pooling layer, a fully connected layer, a regression layer and a classification layer. Theoretical explanations of the main deep NN layers can be found in \cite{omar2018deep}. Fig.~\ref{Fig:Deep_Reinf_Net} depicts the proposed DRL-RT network.
 	
-	\item \emph{Policy search.} The DRL-RT network is based on the policy search. %According to the MDP concept, the 
-	DRL-RT collects input images as current states $S_t$ (or current views) and gets advantages from rewards $R$ to generate actions $A$. The actions then predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner.
-
-\end{itemize}
- 
+	\begin{figure*}[!h]
+		\vspace{-2ex}
+		\centering
+		\scalebox{0.8}{\includegraphics[scale=.5,trim=2cm 5.5cm 2cm 5.5cm,clip]{Deep_Reinf_Net1.pdf}}
+		%
+		\vspace{-2ex}
+		%
+		\begin{scriptsize}	
+			\caption{The main design of the proposed DRL-RT. It consists of two convolution layers, two ReLU layers, a pooling layer, a fully connected layer, a regression layer and a classification layer\label{Fig:Deep_Reinf_Net}}
+		\end{scriptsize}
+		%	\vspace{-4ex}
+	\end{figure*}
+	
+	We now elaborate the NN architecture as follows:
+	\begin{itemize}
+		\item The input of the NN is an image of a car facing view which is considered as the current state. The dimension of the input image is reduced to $254 \times 427 \times 3$ pixels to speed up the training. 
+		
+		\item The first layer is a convolution layer which consists of 5 filters, each of which has a filter size of $10 \times 10$ pixels. This layer is to extract the main features of the input image. 
+		This is followed by a ReLU layer is used next which removes the negative values and maintains the positive values of the previous layer. 
+		
+		\item The third layer is again a convolution layer, consisting of 5 filters each of which has a filter size of $5 \times 5$ pixels. This layer extracts more features from the input images. The same as before, a ReLU layer is employed in the following layer, which rectifies the negative values. We note that it has empirically been established that using two convolution layers with two ReLU layers can well analyse the information before being compressed by applying the next layer. 
+		
+		\item A pooling layer of a maximum type is applied as the fifth layer； the filter size here is $3 \times 3$ pixels with a stride of 3 pixels. 
+		
+		\item The sixth layer is a fully connected layer. It collects the outputs (2 dimensional) from the previous layer and produces a series (1 dimensional) of values for the next layer. 
+		
+		\item In the seventh regression layer, a series of directional road tracking codes are generated. The successful tracking codes in this layer produce positive rewards, whereas, unsuccessful tracking codes generate negative rewards. 
+	\end{itemize}
+	
+	The network should propagate the information forward and backward to update the network weights, during the training stage till obtaining as many positive rewards as possible. Given the codes in the regression layer, it is the classification layer's task to generate a new action - one of the five as in Table~\ref{Table:Signs_codes}. 
+	
+	%\bigskip
+	
+	%We are to address a few technical details in 
+	For the theory underpinning the DRL-RT network, the underlying model of the network is essentially cast into a Markov Decision Process (MDP) framework with the following instantiations:
+	\begin{itemize}
+		\item \emph{States.} The states in the MDP are the views (images).  
+		\item \emph{Rewards.} The reward $R$ takes a simple form, i.e., the correct tracking is considered as ($+1$), whereas, the reward $R$ of the incorrect tracking is considered as ($-1$). The correct and incorrect tracking are specified by comparing the regression layer outputs with the desired tracking codes. Measuring the successful process of the road tracking will be based on obtaining as many positive rewards as possible. 
+		
+		
+		\item \emph{Policy search.} The DRL-RT network is based on the policy search. %According to the MDP concept, the 
+		DRL-RT collects input images as current states $S_t$ (or current views) and gets advantages from rewards $R$ to generate actions $A$. The actions then predict new states $S_{t+1}$ by following the track of the road. The process will be repeated in a multi-episodic manner.
+		
+	\end{itemize}
+	
 	%--------------------------------------------------------------
 	%\subsection{Theoretical concepts} 
 	%\tl{is there anything which is not standard in this section!?}
@@ -306,51 +306,109 @@ For the theory underpinning the DRL-RT network, the underlying model of the netw
 	%
 	%\tl{cannot really see this; this is pretty standard RL stuffs}
 	%The MDP has been applied to the DRL-RT by providing current road tracking as current states $S_t$ to the input layer, estimating tracking directions as actions $A$, considering correct and incorrect tracking actions as rewards $R$, and predicting next tracking movements as new states $S_{t+1}$. Then, the new state (or next tracking view) are transitioned as a current state to the DRL-RT input layer in order to produce a new state again.
-
-%==============================================================================================================
-\section{Results}
-\subsection{Implementation} 
-%	Four databases from SYNTHIA \cite{Ros2016TheSYNTHIA} are used. The selected databases are constructed under different environment conditions: (1) spring, (2) fog, (3) rain and (4) heavy-rain. Moreover, their segmented images, which are provided by the same database, are found to be useful for manually determining the appropriate code of each track. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	
-%	\begin{table*}[!t]
-%		\centering
-%		\caption{Examples of the four employed environments}
-%		\label{Table:Environments_Examples}
-%		\begin{tabular}{|C{1.5cm}|c|C{8.5cm}|}
-%			\hline
-%			\textbf{Database no.} & \textbf{Environment} & \textbf{Examples} \\ \hline
-%			(1)	& Spring & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 24.5cm 2cm 2.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
-%			%			&&\\ \hline
-%			(2) & Fog	& \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 20.5cm 2cm 6.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
-%			%			&&\\ \hline
-%			(3)	& Rain &  \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 16.5cm 2cm 10.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
-%			%			&&\\ \hline
-%			(4)	& Heavy- rain & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 12.5cm 2cm 14.3cm,clip]{examples.pdf}\end{minipage} \\ \hline
-%			%			&&\\ \hline
-%		\end{tabular}
-%	\end{table*}
-All implementations were performed on a PC with 8 GB RAM and Intel Core i5 processor (3.2 GHz). Only the microprocessor was used in this study to train and test DRL-RT. We used 270, 284, 268 and 248 frames for the environments of spring, fog, rain and heavy-rain, respectively. The frames are equally divided between the training and testing stages (50\% each), where the odd-indexed frames are used in the training stage and the even-indexed frames are used in the testing stage.
-
-\subsection{Training stage} 
-	The suggested DRL-RT network has been separately trained for each environment. The following parameters have been assigned for the trainings: Adaptive Moment Estimation (ADAM) optimizer \cite{kingma2014adam}, learning rate equal to 0.0003, gradient decay factor ($\beta_1$) equal to 0.9, squared gradient decay factor ($\beta_2$) equal to 0.99 and mini batch size equal to 128. 
 	
-	The training performance of the DRL-RT for the four databases is given in Fig.\,\ref{fig:training_curves}. This figure demonstrates the relationships between the Root Mean Square Error (RMSE) and the training iterations during the NN training stages. The RMSE values are usually exploited to demonstrate the differences between desired values and output values. These differences are usually reduced during the proceeding of training iterations. Clearly, the curves are successfully declined toward goals.
+	%==============================================================================================================
+	\section{Results}
+	\subsection{Implementations}
+	%	Four databases from SYNTHIA \cite{Ros2016TheSYNTHIA} are used. The selected databases are constructed under different environment conditions: (1) spring, (2) fog, (3) rain and (4) heavy-rain. Moreover, their segmented images, which are provided by the same database, are found to be useful for manually determining the appropriate code of each track. Examples from the four databases are given in Table~\ref{Table:Environments_Examples}.	
+	%	\begin{table*}[!t]
+	%		\centering
+	%		\caption{Examples of the four employed environments}
+	%		\label{Table:Environments_Examples}
+	%		\begin{tabular}{|C{1.5cm}|c|C{8.5cm}|}
+	%			\hline
+	%			\textbf{Database no.} & \textbf{Environment} & \textbf{Examples} \\ \hline
+	%			(1)	& Spring & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 24.5cm 2cm 2.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
+	%			%			&&\\ \hline
+	%			(2) & Fog	& \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 20.5cm 2cm 6.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
+	%			%			&&\\ \hline
+	%			(3)	& Rain &  \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 16.5cm 2cm 10.5cm,clip]{examples.pdf}\end{minipage} \\ \hline
+	%			%			&&\\ \hline
+	%			(4)	& Heavy- rain & \begin{minipage}{.9\textwidth}\includegraphics[scale=.5,trim=2cm 12.5cm 2cm 14.3cm,clip]{examples.pdf}\end{minipage} \\ \hline
+	%			%			&&\\ \hline
+	%		\end{tabular}
+	%	\end{table*}
+		All implementations were performed on a PC with 8 GB RAM and Intel Core i5 processor (3.2 GHz). Only the microprocessor was used in this study to train and test DRL-RT. We used 264, 284, 268 and 248 frames for the environments of spring, fog, rain and heavy-rain, respectively. Different experiments that confirm our approach are implemented. These are as follows:
 	
-%		\begin{figure}[!ht]\tt{This figure was not complete.}
-%		\centering
-%		\includegraphics[scale=.5,trim=.5cm 10cm 4cm .5cm,clip]{training_curves.pdf}
-%		\caption{The training performance of the DRL-RT for the: (1) spring environment, (2) fog environment, (3) rain environment and (4) heavy-rain environment}
-%		\label{fig:training_curves}
-%	\end{figure}
+	\begin{enumerate}
+		\item[(1)] Training 2/3 frames of all the databases and testing the remaining 1/3 frames. The frames are serially selected. Consequently, the testing stage is repeated again after adding different types of noise to the testing frames.
+		\item[(2)] Training three databases of spring, fog and rain. Then, testing the heavy-rain environment, where this environment has feasible noise. 
+		\item[(3)] Training and testing each database individually. Here, the frames are randomly selected and they are equally partitioned between the training and testing stages (50\% each).
+		\item[(4)]	Training and testing each database individually. Here, the frames are equally divided between the training and testing stages (50\% each), where the odd-indexed frames are used in the training stage and the even-indexed frames are used in the testing stage.
+	\end{enumerate}
+
+	\subsection{Training stage}
+		The suggested DRL-RT network has been separately trained for each environment. The following parameters have been assigned for the trainings: Adaptive Moment Estimation (ADAM) optimizer \cite{kingma2014adam}, learning rate equal to 0.0003, gradient decay factor ($\beta_1$) equal to 0.9, squared gradient decay factor ($\beta_2$) equal to 0.99 and mini batch size equal to 128. 
+	
+	\subsection{Testing stage} 
+		In the testing stage we use (driving) accuracy to measure how well our model performs. The driving accuracy is defined	here as the percentage of appropriately accurate tracking actions by the driving car. 
+		
+	\paragraph{\textbf{Group (1) of implementation:}} 
+		In group (1) of implementation, the employed databases are applied altogether to the DRL-RT network and the result is collected. 2/3 number of frames are used for training and 1/3 number of frames are used for testing. The frames are serially selected. Then, the results have been collected again after applying various types of noise to the testing frames. The driving accuracies in this group of implementation are given in Table \ref{Table:Group(1)}.
+
+		\begin{table}[!h]
+		%	\vspace{-2ex}
+		\centering
+		\begin{tabular}{|C{4cm}|c|c|}
+			\hline
+			\textbf{Testing specification} & \textbf{Parameters} & \textbf{Driving Accuracy} \\ \hline
+			Testing frames without noises & --- & 97.18\% \\ \hline
+			Testing frames after adding Gaussian noise & Mean=0.2 and Variance=0.01 & 86.72\% \\ \hline
+			Testing frames after adding Poisson noise & --- & 94.92\% \\ \hline
+			Testing frames after adding Salt \& Pepper noise & density=0.001 & 96.89\% \\ \hline
+			Testing frames after adding Salt \& Pepper noise & density=0.005 & 94.35\% \\ \hline
+			Testing frames after adding Speckle noise & Mean=0 and Variance=0.04 & 94.35\% \\ \hline
+		\end{tabular}	
+			%\vspace{2ex}
+			\caption{The driving accuracies of group (1) of implementation, where the employed databases are applied altogether to the DRL-RT network. 2/3 number of frames are used for training and 1/3 number of frames are used for testing, the frames are serially selected. The results are recorded for the testing frames with and without adding noises }
+			\label{Table:Group(1)} 
+		\end{table}
+
+		It can be seen from Table \ref{Table:Group(1)} that remarkable driving accuracy of 97.18\% has been recorded for training 66.67\% samples and testing 33.33\% samples of all the employed databases. The driving accuracy is decreased after applying different types of noises. However, these accuracies are reasonable. They confirmed that our proposed approach can deal with different types of noise and produce acceptable outcomes.
+
+	\paragraph{\textbf{Group (2) of implementation:}} 
+		In Group (2) of implementation, three databases of spring, fog and rain are Trained. Consequently, one database of heavy-rain is tested. The heavy-rain weather has feasible noise and it is worth to be focused after training different conditions of environments. The driving accuracy here is equal to 91.13\%. It seems that this percentage is acceptable. 
+		
+	\paragraph{\textbf{Group (3) of implementation:}} 
+		In this group of implementation, 50\% of frames  are randomly selected for training and the rest of frames are utilized for testing. Here, each database is considered individually. Table \ref{Table:Group(3)} shows the outcomes of applying group (3) of implementation.
+		
+		\begin{table}[!h]
+			%	\vspace{-2ex}
+			\centering
+			\begin{tabular}{|c|c|c|}
+				\hline
+				\textbf{Database environment} & \textbf{Number of frames} & \textbf{Driving Accuracy} \\ \hline
+				Spring & 264 (132 for training and 132 for testing) & 88.64\% \\ \hline
+				Fog & 284 (142 for training and  142  for testing) & 93.66\% \\ \hline
+				Rain & 268 (134 for training and 134 for testing) & 86.57\% \\ \hline
+				Heavy-rain & 248 (124 for training and 124 for testing) & 84.68\% \\ \hline
+			\end{tabular}	
+			%\vspace{2ex}
+			\caption{The driving accuracies of group (3) of implementation, where the employed databases are applied separately to the DRL-RT network. the frames are randomly selected and they are equally partitioned between the training and testing stages (50\% each).}
+			\label{Table:Group(3)} 
+		\end{table}
+
+		Table \label{Table:Group(3)} demonstrates that the driving accuracies are different between the various employed database environments. This is due to the random frames that are used for training and to the different number of frames for each database. Choosing random frames in training would prevent some scenes from being identified by the DRL-RT network. Also, the number of employed frames are varies between the databases. Using big number of frames can enhance the driving performance as the network has more information about the database. For example, the fog database which has the biggest number of frames (284) has obtained a high driving accuracy of 93.66\%. Noticeably, the heavy-rain database which has the smallest number of frames (248) has obtained a low driving accuracy of 84.68\%. 
+		
+	\paragraph{\textbf{Group (4) of implementation:}} 
+		The training performance of the DRL-RT for the four databases is given in Fig.\,\ref{fig:training_curves}. This figure demonstrates the relationships between the Root Mean Square Error (RMSE) and the training iterations during the NN training stages. The RMSE values are usually exploited to demonstrate the differences between desired values and output values. These differences are usually reduced during the proceeding of training iterations. Clearly, the curves are successfully declined toward goals.
+	
+	%		\begin{figure}[!ht]\tt{This figure was not complete.}
+	%		\centering
+	%		\includegraphics[scale=.5,trim=.5cm 10cm 4cm .5cm,clip]{training_curves.pdf}
+	%		\caption{The training performance of the DRL-RT for the: (1) spring environment, (2) fog environment, (3) rain environment and (4) heavy-rain environment}
+	%		\label{fig:training_curves}
+	%	\end{figure}
 	\begin{figure}[!ht]
-	\centering
-	\includegraphics[scale=.5]{RMSE.png}
-	\caption{The training RMSE vs \#iterations for the four environments}
-	\label{fig:training_curves}
-\end{figure}
-%--------------------------------------------------------------------
-%\vspace{-1ex}	
-\subsection{Testing stage} 
-	In the testing stage we use (driving) accuracy to measure how well our model performs. The driving accuracy is defined	here as the percentage of appropriately accurate tracking actions by the driving car. Fig.\,\ref{fig:Main_Results} shows that the driving accuracy attained its highest value of 93.94\% by using the spring environment database. This is because that the DRL-RT has analysed very clear provided images. The fog environment database obtained a high driving accuracy of 93.66\%. Here, the overall views are blurred (or in a low quality) but the all inputs information can still be distinguished, so, the accuracy is only slightly lower than the spring views. The driving accuracy of the rain environment database achieved 89.55\% and this is due to the noise effects of rain drops on image views. Finally, the inferior driving accuracy of 84.68\% was recorded for the heavy-rain environment database as the amount of rain drops (or noise) is increased here.
+		\centering
+		\includegraphics[scale=.5]{RMSE.png}
+		\caption{The training RMSE vs \#iterations for the four environments}
+		\label{fig:training_curves}
+	\end{figure}
+	%--------------------------------------------------------------------
+	%\vspace{-1ex}	
+
+	 Fig.\,\ref{fig:Main_Results} shows that the driving accuracy attained its highest value of 93.94\% by using the spring environment database. This is because that the DRL-RT has analysed very clear provided images. The fog environment database obtained a high driving accuracy of 93.66\%. Here, the overall views are blurred (or in a low quality) but the all inputs information can still be distinguished, so, the accuracy is only slightly lower than the spring views. The driving accuracy of the rain environment database achieved 89.55\% and this is due to the noise effects of rain drops on image views. Finally, the inferior driving accuracy of 84.68\% was recorded for the heavy-rain environment database as the amount of rain drops (or noise) is increased here.
 	\begin{figure}[!ht]
 		\centering
 		\includegraphics[scale=.45,trim=3cm 10.3cm 2.7cm 10.3cm,clip]{Main_Results.pdf}
@@ -358,60 +416,63 @@ All implementations were performed on a PC with 8 GB RAM and Intel Core i5 proce
 		\label{fig:Main_Results}
 	\end{figure}
 	
-%------------------------------------
+	%------------------------------------
 	\subsection{Comparisons} 
 	We have investigated and simulated various deep learning approaches to establish a fair comparison between our DRL-RT method and other work. Table~\ref{Table:Comparisons} shows the accuracies of different deep learning networks by applying the SYNTHIA-SEQS-05-SPRING database. (Some parameters were reasonably changed to allow acceptable comparisons.) The reason of selecting this database  is that it has the clear environment, which is suitable to eliminate undesired effects and ensure a fair judgement.
 	%In the case of comparisons, hard efforts were performed to investigate and simulate various deep learning approaches. 
-
-\begin{table}
-%	\vspace{-2ex}
-	\centering
-	\begin{tabular}{|C{5cm}|c|c|}
-		\hline
-		\textbf{Reference} & \textbf{Neural networks} & \textbf{Accuracy} \\ \hline
-		Karaduman and Eren \cite{Karaduman2017Deep} & CNN & 67.42\% \\ \hline
-		Bojarski \textit{et al.} \cite{bojarski2016end} & CNN & 74.24\% \\ \hline
-		George and Routray \cite{George2016Real} & CNN & 83.33\% \\ \hline
-		Yun \textit{et al.} \cite{Yun2017Action,Yun2018Action} & ADNet & 83.33\% \\ \hline
-		Mnih \textit{et al.} \cite{mnih2015human} & DQN & 88.64\% \\ \hline
-		This work & DRL-RT & 93.94\% \\ \hline
-	\end{tabular}	
-%\vspace{2ex}
-\caption{A comparison between the DRL-RT method and other suggested networks\label{Table:Comparisons}}
-\end{table}
-
-From Table~\ref{Table:Comparisons}, it can be seen that the suggested CNN in \cite{Karaduman2017Deep} obtained the inferior tracking accuracy of 67.42\%. This is due to the architecture of this network, where it was constructed to classify directions of traffic signs. More specifically, a pooling layer was applied after each convolution layer and no ReLU layers were used. This caused compressing and wasting useful extracted features after each convolution layer. 
-%
-The CNN used in \cite{bojarski2016end} attained a low accuracy of 74.24\%. The main drawback of this network is that it considers steering angles to be tracked, which increases the errors of obtaining precise outputs. 
-%
-The CNN used in \cite{George2016Real} achieved 83.33\%. This is also due to the architecture of this network, which was designed for classifying eye gaze directions. 
-%
-The ADNet used in \cite{Yun2017Action,Yun2018Action} attained the same accuracy of 83.33\%. The essential problem  lies in the rewards used there, which were basically designed %after moving objects and not during the moving. 
-for recognising moved objects, as the rewards are updated in the stop action. In addition, the ADnet architecture is not entirely appropriate for road tracking tasks. 
-
-
-The work which is closest to ours is the influential Deep Q-Network (DQN) used in \cite{mnih2015human} and illustrated in \cite{arulkumaran2017brief}, which achieved a reasonable accuracy of 88.64\%. We believe that this is due to the %DQN processes, where it combines between 
-introduction of DRL (i.e., the deep network and the Q-learning). 
-%This network can be considered as the nearest method to our approach. 
-Our proposed method has shown superior performance by attaining the accuracy of 93.94\%. This can be due to the overall structure of our road tracking method including the network architecture, tracking policy and designed codes.
-
-\section{Conclusion}
-In this paper, a deep reinforcement neural network DRL-RT has been proposed for road tracking. This network was trained and tested to guide driving cars under different weather environments. Different tracking instances were coded to represent the appropriate road tracking. The MDP concept is used here, where the network accepted states and produced actions by taking advantages from rewards. 
-%The proposed deep reinforcement network is based on the policy search. 
-This study has been compared with other work and showed superior performance. %In addition, interesting results were benchmarked by the proposed approach. Namely, 
-In particular, we have achieved %the best performance of  was recorded for 
-an accuracy of 93.94\% in a clear environment, and  accuracies  93.66\%, 89.55\% and 84.68\%. %reasonable performance were reported 
-under unclear environments of fog, rain and heavy-rain respectively. These would set up a baseline for further studies. 
-%\begin{thebibliography}{0}
-%
-%\bibitem{IEEEhowto:kopka}
-%%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
-%%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
-%
-%\end{thebibliography}
-%
-% ---- Bibliography ----
-%
-\bibliographystyle{IEEEtr}
-\bibliography{references14} 
+	
+	\begin{table}
+		%	\vspace{-2ex}
+		\centering
+		\begin{tabular}{|C{5cm}|c|c|}
+			\hline
+			\textbf{Reference} & \textbf{Neural networks} & \textbf{Accuracy} \\ \hline
+			Karaduman and Eren \cite{Karaduman2017Deep} & CNN & 67.42\% \\ \hline
+			Bojarski \textit{et al.} \cite{bojarski2016end} & CNN & 74.24\% \\ \hline
+			George and Routray \cite{George2016Real} & CNN & 83.33\% \\ \hline
+			Yun \textit{et al.} \cite{Yun2017Action,Yun2018Action} & ADNet & 83.33\% \\ \hline
+			Mnih \textit{et al.} \cite{mnih2015human} & DQN & 88.64\% \\ \hline
+			This work & DRL-RT & 93.94\% \\ \hline
+		\end{tabular}	
+		%\vspace{2ex}
+		\caption{A comparison between the DRL-RT method and other suggested networks\label{Table:Comparisons}}
+	\end{table}
+	
+	From Table~\ref{Table:Comparisons}, it can be seen that the suggested CNN in \cite{Karaduman2017Deep} obtained the inferior tracking accuracy of 67.42\%. This is due to the architecture of this network, where it was constructed to classify directions of traffic signs. More specifically, a pooling layer was applied after each convolution layer and no ReLU layers were used. This caused compressing and wasting useful extracted features after each convolution layer. 
+	%
+	The CNN used in \cite{bojarski2016end} attained a low accuracy of 74.24\%. The main drawback of this network is that it considers steering angles to be tracked, which increases the errors of obtaining precise outputs. 
+	%
+	The CNN used in \cite{George2016Real} achieved 83.33\%. This is also due to the architecture of this network, which was designed for classifying eye gaze directions. 
+	%
+	The ADNet used in \cite{Yun2017Action,Yun2018Action} attained the same accuracy of 83.33\%. The essential problem  lies in the rewards used there, which were basically designed %after moving objects and not during the moving. 
+	for recognising moved objects, as the rewards are updated in the stop action. In addition, the ADnet architecture is not entirely appropriate for road tracking tasks. 
+	
+	
+	The work which is closest to ours is the influential Deep Q-Network (DQN) used in \cite{mnih2015human} and illustrated in \cite{arulkumaran2017brief}, which achieved a reasonable accuracy of 88.64\%. We believe that this is due to the %DQN processes, where it combines between 
+	introduction of DRL (i.e., the deep network and the Q-learning). 
+	%This network can be considered as the nearest method to our approach. 
+	Our proposed method has shown superior performance by attaining the accuracy of 93.94\%. This can be due to the overall structure of our road tracking method including the network architecture, tracking policy and designed codes.
+	
+	\section{Conclusion}
+	In this paper, a deep reinforcement neural network DRL-RT has been proposed for road tracking. This network was trained and tested to guide driving cars under different weather environments. Different tracking instances were coded to represent the appropriate road tracking. The MDP concept is used here, where the network accepted states and produced actions by taking advantages from rewards. 
+	%The proposed deep reinforcement network is based on the policy search. 
+	This study has been compared with other work and showed superior performance. %In addition, interesting results were benchmarked by the proposed approach. Namely, 
+	In particular, we have achieved %the best performance of  was recorded for 
+	an accuracy of 93.94\% in a clear environment, and  accuracies  93.66\%, 89.55\% and 84.68\%. %reasonable performance were reported 
+	under unclear environments of fog, rain and heavy-rain respectively. These would set up a baseline for further studies. 
+	%\begin{thebibliography}{0}
+	%
+	%\bibitem{IEEEhowto:kopka}
+	%%H.~Kopka and P.~W. Daly, \emph{A Guide to \LaTeX}, 3rd~ed.\hskip 1em plus
+	%%  0.5em minus 0.4em\relax Harlow, England: Addison-Wesley, 1999.
+	%
+	%\end{thebibliography}
+	%
+	% ---- Bibliography ----
+	%
+	\section*{Acknowledgment}
+	$\bullet$ ``RC grant EP/P015387/1".
+	
+	\bibliographystyle{IEEEtr}
+	\bibliography{references14} 
 \end{document}
